@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="US-ASCII"></meta>
+<title>MarkDown Preview</title>
+
+	<script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+	 
+ 	<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
+ 
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/googlecode.min.css">
+	<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/highlight.min.js"></script>
+
+<style>    
+pre > code.hljs {
+  background-color: #f5f5f5;
+}
+body {
+ padding-left: 20px;
+ padding-right: 20px;
+}
+</style>
+
+	<link rel="stylesheet" href="https://pe-content.cfapps.io/bosh-workshop/css/pui-v2.0.0/pivotal-ui.css">
+	<link rel="stylesheet" href="https://pe-content.cfapps.io/bosh-workshop/css/theme.css">
+	<link rel="stylesheet" href="https://pe-content.cfapps.io/bosh-workshop/css/pui-v2.0.0/pivotal-ui.js">
+	<link rel="stylesheet" href="https://pe-content.cfapps.io/bosh-workshop/css/bootie-docs.css">
+	
+</head>
+<body>
+
+<div id="md" class="md">
+loading markdown...
+</div>
+
+
+
+    
+<script>
+function md() {
+	$('.md').each(function(){
+		$(this).html(marked($(this).html()))
+	});
+	$('pre code').each(function() {
+		hljs.highlightBlock(this);
+	});
+}
+
+$(document).ready(function() {
+	$("#md").load('cna-connectors-lab.md', md);
+});
+
+</script>
+ 
+</body>
+</html>
