@@ -15,7 +15,6 @@
 		- [Deploy the `fortune-service` to PCF](#deploy-the-fortune-service-to-pcf)
 		- [Deploy the `greeting-service` app to PCF](#deploy-the-greeting-service-app-to-pcf)
 		- [Scale the `fortune-service`](#scale-the-fortune-service)
-- [then search output for "GreetingController"](#then-search-output-for-greetingcontroller)
 <!-- /TOC -->
 
 Estimated Time: 45 minutes
@@ -438,7 +437,7 @@ $ cf logs greeting-service | grep GreetingController
 
 [windows]
 $ cf logs greeting-service
-# then search output for "GreetingController"
+$ # then search output for "GreetingController"
 ```
 
 4) Refresh the `greeting-service` `/` endpoint.
