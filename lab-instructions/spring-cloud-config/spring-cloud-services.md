@@ -34,6 +34,7 @@ Estimated Time: 60 minutes
 * How to use `@ConfigurationProperties` to capture configuration changes (`greeting-config`)
 * How to use `@RefreshScope` to capture configuration changes (`greeting-config`)
 * How to override configuration values by profile (`greeting-config`)
+* How to use Spring Cloud Service to provision and configure a Config Server
 * How to use Cloud Bus to notify applications (`greeting-config`) to refresh configuration at scale
 
 

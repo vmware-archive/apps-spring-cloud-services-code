@@ -28,6 +28,7 @@ Estimated Time: 45 minutes
 * How to embed Eureka in a Spring Boot application
 * How to register services (`greeting-service` and `fortune-service`) with Eureka
 * How to discover services (`fortune-service`) with Eureka
+* How to use Spring Cloud Service to provision a Service Registry
 
 ## Exercises
 
