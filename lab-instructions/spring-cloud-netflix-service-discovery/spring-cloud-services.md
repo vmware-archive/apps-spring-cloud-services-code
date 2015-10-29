@@ -11,12 +11,13 @@
 		- [Set up `service-registry`](#set-up-service-registry)
 		- [Set up `fortune-service`](#set-up-fortune-service)
 		- [Set up `greeting-service`](#set-up-greeting-service)
-		- [Deploy the `service-registry` to PCF](#deploy-the-service-registry-to-pcf)
-		- [Update App Config for `fortune-service` and `greeting-service` to run on PCF](#update-app-config-for-fortune-service-and-greeting-service-to-run-on-pcf)
+		- [Optionally Update App Config for `fortune-service` and `greeting-service` to run on PCF](#optionally-update-app-config-for-fortune-service-and-greeting-service-to-run-on-pcf)
 		- [Deploy the `fortune-service` to PCF](#deploy-the-fortune-service-to-pcf)
 		- [Deploy the `greeting-service` app to PCF](#deploy-the-greeting-service-app-to-pcf)
 		- [Scale the `fortune-service`](#scale-the-fortune-service)
+- [then search output for "GreetingController"](#then-search-output-for-greetingcontroller)
 <!-- /TOC -->
+
 Estimated Time: 45 minutes
 
 ## Requirements
