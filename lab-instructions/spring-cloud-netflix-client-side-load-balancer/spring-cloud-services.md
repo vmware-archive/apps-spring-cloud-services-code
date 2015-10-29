@@ -183,7 +183,7 @@ $ mvn clean package
 $ cf push greeting-ribbon-rest -p target/greeting-ribbon-rest-0.0.1-SNAPSHOT.jar -m 512M --random-route --no-start
 $ cf bind-service greeting-ribbon-rest config-server
 $ cf bind-service greeting-ribbon-rest service-registry
-$ cf set-env greeting-ribbon-rest CF_TARGET <your api endpoint - make sure it starts with `https://`>
+$ cf set-env greeting-ribbon-rest CF_TARGET <your api endpoint - make sure it starts with "https://"">
 $ cf start greeting-ribbon-rest
 ```
 You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect_ message from the CLI. We can just start the `greeting-ribbon-rest` application.
