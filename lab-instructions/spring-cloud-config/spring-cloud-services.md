@@ -9,12 +9,14 @@
 		- [Set up the `app-config` Repo](#set-up-the-app-config-repo)
 		- [Set up `config-server`](#set-up-config-server)
 		- [Set up `greeting-config`](#set-up-greeting-config)
+		- [Unsecure the Endpoints](#unsecure-the-endpoints)
 		- [Changing Logging Levels](#changing-logging-levels)
 		- [Turning on a Feature with `@ConfigurationProperties`](#turning-on-a-feature-with-configurationproperties)
 		- [Reinitializing Beans with `@RefreshScope`](#reinitializing-beans-with-refreshscope)
 		- [Override Configuration Values By Profile](#override-configuration-values-by-profile)
-		- [Deploy the `config-server` and `greeting-config` Apps to PCF](#deploy-the-config-server-and-greeting-config-apps-to-pcf)
+		- [Deploy the `greeting-config` Application to PCF](#deploy-the-greeting-config-application-to-pcf)
 		- [Refreshing Application Configuration at Scale with Cloud Bus](#refreshing-application-configuration-at-scale-with-cloud-bus)
+- [then search output for "GreetingController"](#then-search-output-for-greetingcontroller)
 <!-- /TOC -->
 
 Estimated Time: 60 minutes
