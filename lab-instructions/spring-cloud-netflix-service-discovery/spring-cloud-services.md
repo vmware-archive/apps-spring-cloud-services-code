@@ -371,7 +371,7 @@ You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable cha
 5) Set environment variables for the `fortune-service`. Then start the app.
 
 ```bash
-$ cf set-env fortune-service CF_TARGET <your api endpoint - make sure it starts with `https://`>
+$ cf set-env fortune-service CF_TARGET <your api endpoint - make sure it starts with "https://">
 ```
 
 You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect_ message from the CLI.  We don't need to restage at this time.
@@ -409,7 +409,7 @@ $ cf push greeting-service -p target/greeting-service-0.0.1-SNAPSHOT.jar -m 512M
 ```bash
 $ cf bind-service greeting-service config-server
 $ cf bind-service greeting-service service-registry
-$ cf set-env greeting-service CF_TARGET <your api endpoint - make sure it starts with `https://`>
+$ cf set-env greeting-service CF_TARGET <your api endpoint - make sure it starts with "https://">
 $ cf start greeting-service
 ```
 You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect_ message from the CLI.  We can just start the `greeting-service`.

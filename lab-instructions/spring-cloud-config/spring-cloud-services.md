@@ -514,7 +514,7 @@ You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable cha
 5) If using self signed certificates, set the CF_TARGET environment variable to API endpoint of your Elastic Runtime instance.  Make sure to use `https://` not `http://`.
 
 ```bash
-cf set-env greeting-config CF_TARGET <your api endpoint>
+cf set-env greeting-config CF_TARGET <your api endpoint - make sure it starts with "https://">
 ```
 
 You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect_ message from the CLI.  Our app doesn't need to be restaged at this time.
