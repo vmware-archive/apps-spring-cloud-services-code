@@ -37,6 +37,14 @@ Estimated Time: 45 minutes
 1) Create an `$APP_CONFIG_REPO_HOME/application.yml` in your fork of the `app-config` repo with the following contents:
 
 ```yml
+security:
+  basic:
+    enabled: false
+
+management:
+  security:
+    enabled: false
+
 logging:
   level:
     io:
@@ -46,13 +54,14 @@ Then commit and push back to Github.
 
 ***A note about the application.yml***
 
-When the `config-server`'s backing repository contains an `application.yml` it is shared with all applications.  Therefore, it is a great place to put common configuration for all applications.  Certainly, this comes into play with service discovery, because all apps will need to connect with Eureka.
+When the `config-server`'s backing repository contains an `application.yml` it is shared with all applications.  Therefore, it is a great place to put common configuration for all applications.  In this case, we have dropped security on all the endpoints and setup logging.
 
 In the Spring Cloud Config Lab, we used application specific configuration files:
 * One based on the application name `greeting-config.yml`
 * One based on the application name + profile `greeting-config-qa.yml`
 
 Application specific files override configuration settings in the `application.yml`.
+
 
 ### Set up `config-server`
 
@@ -150,19 +159,16 @@ $ mvn clean spring-boot:run
  spring:
    application:
      name: fortune-service
-   cloud:
-     config:
-       uri: ${vcap.services.config-server.credentials.uri:http://localhost:8888}
 ```
 
 `spring.application.name` is the name the application will use when registering with Eureka.
 
-2) Review the `$CLOUD_NATIVE_APP_LABS_HOME/fortune-service/pom.xml` file.  By adding `spring-cloud-starter-eureka` to the classpath this application is eligible to register and discover services with the `service-registry`.
+2) Review the `$CLOUD_NATIVE_APP_LABS_HOME/fortune-service/pom.xml` file.  By adding `spring-cloud-services-starter-service-registry` to the classpath this application is eligible to register and discover services with the `service-registry`.
 
 ```xml
 <dependency>
-    <groupId>org.springframework.cloud</groupId>
-    <artifactId>spring-cloud-starter-eureka</artifactId>
+	<groupId>io.pivotal.spring.cloud</groupId>
+	<artifactId>spring-cloud-services-starter-service-registry</artifactId>
 </dependency>
 ```
 
@@ -179,37 +185,14 @@ public class FortuneServiceApplication {
 }
 ```
 
-4). In your fork of the `app-config` repo.  Edit the `application.yml` file and add the following contents:
-
-```yml
-logging:
-  level:
-    io:
-      pivotal: DEBUG
-eureka: # <--- ADD NEW SECTION
-  instance:
-    metadataMap:
-      instanceId: ${spring.application.name}:${server.port:8080}
-
-```
-The expression for the `eureka.instance.metadataMap.instanceId` creates a unique `instanceId` when running locally.  By default a client is registered with an `instanceId` that is equal to its hostname (i.e. only one service per host).  Keep in mind this is just an ID, it does not describe how to reach a given service.
-
-Connectivity details are controlled via `hostname` and `nonSecurePort`.
-
-There is no `eureka.instance.hostname` defined.  This will default to the machine `hostname`.
-
-There is no `eureka.instance.nonSecurePort` defined.  This will default to the value of `server.port`.
-
-Also note that there is no `eureka.client.serviceUrl.defaultZone` defined.  It defaults to `http://localhost:8761/eureka/`.
-
-5) Open a new terminal window.  Start the `fortune-service`
+4) Open a new terminal window.  Start the `fortune-service`
 
  ```bash
 $ cd $CLOUD_NATIVE_APP_LABS_HOME/fortune-service
 $ mvn clean spring-boot:run
 ```
 
-6) After the a few moments, check the `service-registry` dashboard.  Confirm the `fortune-service` is registered.
+5) After the a few moments, check the `service-registry` dashboard.  Confirm the `fortune-service` is registered.
 ![fortune-service](resources/images/fortune-service.png "fortune-service")
 
 The Eureka Dashboard may report a warning, because we aren't setup with multiple peers.  This can safely be ignored.
@@ -226,17 +209,14 @@ The Eureka Dashboard may report a warning, because we aren't setup with multiple
  spring:
    application:
      name: greeting-service
-   cloud:
-     config:
-       uri: ${vcap.services.config-server.credentials.uri:http://localhost:8888}
 ```
 
-2) Review the `$CLOUD_NATIVE_APP_LABS_HOME/greeting-service/pom.xml` file.  By adding `spring-cloud-starter-eureka` to the classpath this application is eligible to register and discover services with the `service-registry`.
+2) Review the `$CLOUD_NATIVE_APP_LABS_HOME/greeting-service/pom.xml` file.  By adding `spring-cloud-services-starter-service-registry` to the classpath this application is eligible to register and discover services with the `service-registry`.
 
 ```xml
 <dependency>
-    <groupId>org.springframework.cloud</groupId>
-    <artifactId>spring-cloud-starter-eureka</artifactId>
+	<groupId>io.pivotal.spring.cloud</groupId>
+	<artifactId>spring-cloud-services-starter-service-registry</artifactId>
 </dependency>
 ```
 
@@ -319,90 +299,43 @@ The `greeting-service` application was able to discover how to reach the `fortun
 
 8) When done stop the `config-server`, `service-registry`, `fortune-service` and `greeting-service` applications.
 
-### Deploy the `service-registry` to PCF
 
-1) Package `service-registry`
 
-```bash
-$ mvn clean package
-```
+### Optionally Update App Config for `fortune-service` and `greeting-service` to run on PCF
 
-2) Deploy `service-registry`.  Confirm it came up correctly by visiting the uri.  The `--random-route` flag will generate a random uri for the `service-registry`.  Make note of it.  You will use it in the next step.
+1) You may specify the registration method to use for the applications using the `spring.cloud.services.registrationMethod` parameter.
 
-```bash
-$ cf push service-registry -p target/service-registry-0.0.1-SNAPSHOT.jar -m 512M --random-route
-```
+It can take either of two values:
 
-### Update App Config for `fortune-service` and `greeting-service` to run on PCF
+`route`: The application will be registered using its Cloud Foundry route (this is the default).
 
-1) In the `app-config` repo add a second yaml document to the `$APP_CONFIG_REPO_HOME/application.yml`
+`direct`: The application will be registered using its host IP and port.
+
+The `direct` registration method is only compatible with Pivotal Cloud Foundry version 1.5 or higher. In Pivotal Cloud Foundry Operations Manager, within the Pivotal Elastic Runtime tile’s Security Config, the “Enable cross-container traffic within each DEA” or “Enable cross-container traffic” option must be enabled.
+
+When using the `direct` registration method, requests from client applications to registered applications will not go through the Pivotal Cloud Foundry Router. You can utilize this with client-side load balancing techniques using [Spring Cloud and Netflix Ribbon](http://projects.spring.io/spring-cloud/docs/1.0.3/spring-cloud.html#spring-cloud-ribbon).
+
+If cross container traffic has been enabled, in the `app-config` repo add an additional section to the `$APP_CONFIG_REPO_HOME/application.yml` file as seen below.  If using the `route` option then no change is needed; move to the next step.
 
 ```yml
+security:
+  basic:
+    enabled: false
+
+management:
+  security:
+    enabled: false
+
 logging:
   level:
     io:
       pivotal: DEBUG
-eureka:
-  instance:
-    metadataMap:
-      instanceId: ${spring.application.name}:${server.port:8080}
 
---- # <--- ADD NEW DOCUMENT
-
-spring:
-  profiles: cloud
-eureka:
-  instance:
-    hostname: ${vcap.application.uris[0]}
-    nonSecurePort: 80
-    metadataMap:
-      instanceId: ${vcap.application.instance_id}
-
+spring: # <---NEW SECTION
+  cloud:
+    services:
+      registrationMethod: direct
 ```
-
-When deploying Spring based applications to Cloud Foundry the Java Buildpack [Auto-Reconfiguration](https://github.com/cloudfoundry/java-buildpack-auto-reconfiguration) feature adds the `cloud` profile to Spring's list of active profiles.  This new yaml document will only be applied when the `cloud` profile is active.
-
-Applications with multiple instances on Cloud Foundry all share the same `hostname` and traffic is routed to the application instances via the `router`.  This is in conflict with Eureka's default behavior of using the machine `hostname` as the way to reach a given service and similarly for the port (`nonSecurePort`).
-
-Therefore, this second yaml document overrides Eureka's default behavior of using the machine `hostname` as the way to reach a given service.  Instead we will use the first Cloud Foundry application uri as the `hostname` when the `cloud` profile is active.  Also overridden is the port to reach the given service.
-
-Lastly, just as we did locally we need to make sure the `instanceId` is unique.  In this case, we are able to use the Cloud Foundry `vcap.application.instance_id` which satisfies that requirement.
-
-
-2) Add a third yaml document to `application.yml`.  Make sure to substitute your `service-registry` uri.  Make sure to start the URI with `http://` and end with `/eureka/`.  See example below.
-
-```yml
-logging:
-  level:
-    io:
-      pivotal: DEBUG
-eureka:
-  instance:
-    metadataMap:
-      instanceId: ${spring.application.name}:${server.port:8080}
-
----
-
-spring:
-  profiles: cloud
-eureka:
-  instance:
-    hostname: ${vcap.application.uris[0]}
-    nonSecurePort: 80
-    metadataMap:
-      instanceId: ${vcap.application.instance_id}
-
----  # <--- ADD NEW DOCUMENT
-
-spring:
-  profiles: dev
-eureka:
-  client:    
-    serviceUrl:
-      defaultZone: http://service-registry-worrisome-counsellor.cfapps.io/eureka/ # <-- substitute your service-registry url
-
-```
-`eureka.client.serviceUrl.defaultZone` describes how a client will connect with Eureka.  This yaml document only applies when `SPRING_PROFILES_ACTIVE` includes `dev`.  Moving forward in the labs we will assume we are in development and therefore run with the `dev` profile active.
 
 ### Deploy the `fortune-service` to PCF
 
@@ -418,21 +351,43 @@ $ mvn clean package
 $ cf push fortune-service -p target/fortune-service-0.0.1-SNAPSHOT.jar -m 512M --random-route --no-start
 ```
 
-3) Bind services and set environment variables for the `fortune-service`. Then start the app.  Notice `SPRING_PROFILES_ACTIVE` is set to `dev`.
+3) Create a Service Registry Service Instance
+
+```bash
+$ cf create-service p-service-registry standard service-registry
+```
+
+4) Bind services to the `fortune-service`. Then start the app.
 
 ```bash
 $ cf bind-service fortune-service config-server
-$ cf set-env fortune-service SPRING_PROFILES_ACTIVE dev
+$ cf bind-service fortune-service service-registry
+```
+
+You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect_ message from the CLI.  We don't need to restage at this time.
+
+
+5) Set environment variables for the `fortune-service`. Then start the app.
+
+```bash
+$ cf set-env fortune-service CF_TARGET <your api endpoint>
+```
+
+You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect_ message from the CLI.  We don't need to restage at this time.
+
+6) Start the `fortune-service` app.
+
+```bash
 $ cf start fortune-service
 ```
-You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect_ message from the CLI.  We can just start the `fortune-service`.
 
-4) Confirm `fortune-service` registered with the `service-registry`.  This will take a few moments.
+7) Confirm `fortune-service` registered with the `service-registry`.  This will take a few moments.
+
+Click on the ***Manage*** link for the `service-registry`.  You can find it by navigating to the space where your applications are deployed.
+
+![manage](resources/images/manage.png "manage")
+
 ![fortune-service](resources/images/cf-fortune-service.png "fortune-service")
-
-***What Just Happened?***
-
-The `fortune-service` registered with the `service-registry`, but how?  The `fortune-service` runs with two profiles active: `dev` and `cloud`.  It will pick up configuration for those two profiles plus `default` configuration.  We setup configuration in the `cloud` profile to handle running `sevice-registry` (Eureka) in Cloud Foundry.  The `dev` profile specifies how to connect to the `service-registry` when running with the `dev` profile active.
 
 ### Deploy the `greeting-service` app to PCF
 
@@ -452,7 +407,8 @@ $ cf push greeting-service -p target/greeting-service-0.0.1-SNAPSHOT.jar -m 512M
 
 ```bash
 $ cf bind-service greeting-service config-server
-$ cf set-env greeting-service SPRING_PROFILES_ACTIVE dev
+$ cf bind-service greeting-service service-registry
+$ cf set-env greeting-service CF_TARGET <your api endpoint>
 $ cf start greeting-service
 ```
 You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect_ message from the CLI.  We can just start the `greeting-service`.
@@ -486,19 +442,27 @@ $ cf logs greeting-service
 
 4) Refresh the `greeting-service` `/` endpoint.
 
-5) Observe the log output.  Compare the `instanceId`'s being logged. The `discoveryClient` round robins the `fortune-service` instances.
+5) Observe the log output.  Compare the `instanceId`s and `homePageUrl`s being logged. The `discoveryClient` round robins the `fortune-service` instances.
 
 ```
-2015-09-01T09:54:58.57-0500 [App/2]      OUT 2015-09-01 14:54:58.574 DEBUG 33 --- [io-63979-exec-8] io.pivotal.greeting.GreetingController   : Adding greeting
-2015-09-01T09:54:58.58-0500 [App/2]      OUT 2015-09-01 14:54:58.589 DEBUG 33 --- [io-63979-exec-8] io.pivotal.greeting.GreetingController   : instanceID: fortune-service-tympanic-nonvoter.cfapps.io:ab631fe181724ecb8c065ae6e1de8ee9
-2015-09-01T09:54:58.58-0500 [App/2]      OUT 2015-09-01 14:54:58.589 DEBUG 33 --- [io-63979-exec-8] io.pivotal.greeting.GreetingController   : fortune service homePageUrl: http://fortune-service-tympanic-nonvoter.cfapps.io:80/
-2015-09-01T09:54:58.60-0500 [App/2]      OUT 2015-09-01 14:54:58.606 DEBUG 33 --- [io-63979-exec-8] io.pivotal.greeting.GreetingController   : Adding fortune
-2015-09-01T09:55:42.73-0500 [App/2]      OUT 2015-09-01 14:55:42.739 DEBUG 33 --- [io-63979-exec-2] io.pivotal.greeting.GreetingController   : Adding greeting
-2015-09-01T09:55:42.75-0500 [App/2]      OUT 2015-09-01 14:55:42.750 DEBUG 33 --- [io-63979-exec-2] io.pivotal.greeting.GreetingController   : instanceID: fortune-service-tympanic-nonvoter.cfapps.io:0ec2298e890a45bf81932ec0792a64e2
-2015-09-01T09:55:42.75-0500 [App/2]      OUT 2015-09-01 14:55:42.750 DEBUG 33 --- [io-63979-exec-2] io.pivotal.greeting.GreetingController   : fortune service homePageUrl: http://fortune-service-tympanic-nonvoter.cfapps.io:80/
-2015-09-01T09:55:42.76-0500 [App/2]      OUT 2015-09-01 14:55:42.761 DEBUG 33 --- [io-63979-exec-2] io.pivotal.greeting.GreetingController   : Adding fortune
-2015-09-01T09:55:57.30-0500 [App/1]      OUT 2015-09-01 14:55:57.308 DEBUG 34 --- [io-61136-exec-4] io.pivotal.greeting.GreetingController   : Adding greeting
-2015-09-01T09:55:57.33-0500 [App/1]      OUT 2015-09-01 14:55:57.335 DEBUG 34 --- [io-61136-exec-4] io.pivotal.greeting.GreetingController   : instanceID: fortune-service-tympanic-nonvoter.cfapps.io:3131d8b3598c4093a599b05e881c0063
-2015-09-01T09:55:57.33-0500 [App/1]      OUT 2015-09-01 14:55:57.336 DEBUG 34 --- [io-61136-exec-4] io.pivotal.greeting.GreetingController   : fortune service homePageUrl: http://fortune-service-tympanic-nonvoter.cfapps.io:80/
-2015-09-01T09:55:57.35-0500 [App/1]      OUT 2015-09-01 14:55:57.355 DEBUG 34 --- [io-61136-exec-4] io.pivotal.greeting.GreetingController   : Adding fortune
+2015-10-29T15:49:56.48-0500 [APP/0]      OUT 2015-10-29 20:49:56.481 DEBUG 23 --- [nio-8080-exec-1] io.pivotal.greeting.GreetingController   : Adding greeting
+2015-10-29T15:49:56.49-0500 [APP/0]      OUT 2015-10-29 20:49:56.497 DEBUG 23 --- [nio-8080-exec-1] io.pivotal.greeting.GreetingController   : instanceID: 10.68.104.27:9f960352-f80b-4316-7577-61dd1815ac5f
+2015-10-29T15:49:56.49-0500 [APP/0]      OUT 2015-10-29 20:49:56.498 DEBUG 23 --- [nio-8080-exec-1] io.pivotal.greeting.GreetingController   : fortune service homePageUrl: http://10.68.104.27:60028/
+2015-10-29T15:49:56.50-0500 [APP/0]      OUT 2015-10-29 20:49:56.507 DEBUG 23 --- [nio-8080-exec-1] io.pivotal.greeting.GreetingController   : Adding fortune
+2015-10-29T15:49:57.72-0500 [APP/0]      OUT 2015-10-29 20:49:57.722 DEBUG 23 --- [nio-8080-exec-6] io.pivotal.greeting.GreetingController   : Adding greeting
+2015-10-29T15:49:57.73-0500 [APP/0]      OUT 2015-10-29 20:49:57.737 DEBUG 23 --- [nio-8080-exec-6] io.pivotal.greeting.GreetingController   : instanceID: 10.68.104.28:72aa9f59-b27f-4d85-4323-2d79a9d7720c
+2015-10-29T15:49:57.73-0500 [APP/0]      OUT 2015-10-29 20:49:57.737 DEBUG 23 --- [nio-8080-exec-6] io.pivotal.greeting.GreetingController   : fortune service homePageUrl: http://10.68.104.28:60026/
+2015-10-29T15:49:57.74-0500 [APP/0]      OUT 2015-10-29 20:49:57.745 DEBUG 23 --- [nio-8080-exec-6] io.pivotal.greeting.GreetingController   : Adding fortune
+2015-10-29T15:49:58.66-0500 [APP/0]      OUT 2015-10-29 20:49:58.660 DEBUG 23 --- [nio-8080-exec-2] io.pivotal.greeting.GreetingController   : Adding greeting
+2015-10-29T15:49:58.67-0500 [APP/0]      OUT 2015-10-29 20:49:58.672 DEBUG 23 --- [nio-8080-exec-2] io.pivotal.greeting.GreetingController   : instanceID: 10.68.104.29:e117fae6-b847-42c7-5286-8662a993351e
+2015-10-29T15:49:58.67-0500 [APP/0]      OUT 2015-10-29 20:49:58.673 DEBUG 23 --- [nio-8080-exec-2] io.pivotal.greeting.GreetingController   : fortune service homePageUrl: http://10.68.104.29:60020/
+2015-10-29T15:49:58.68-0500 [APP/0]      OUT 2015-10-29 20:49:58.682 DEBUG 23 --- [nio-8080-exec-2] io.pivotal.greeting.GreetingController   : Adding fortune
+2015-10-29T15:49:59.60-0500 [APP/0]      OUT 2015-10-29 20:49:59.609 DEBUG 23 --- [io-8080-exec-10] io.pivotal.greeting.GreetingController   : Adding greeting
+2015-10-29T15:49:59.62-0500 [APP/0]      OUT 2015-10-29 20:49:59.626 DEBUG 23 --- [io-8080-exec-10] io.pivotal.greeting.GreetingController   : instanceID: 10.68.104.27:9f960352-f80b-4316-7577-61dd1815ac5f
+2015-10-29T15:49:59.62-0500 [APP/0]      OUT 2015-10-29 20:49:59.626 DEBUG 23 --- [io-8080-exec-10] io.pivotal.greeting.GreetingController   : fortune service homePageUrl: http://10.68.104.27:60028/
+2015-10-29T15:49:59.63-0500 [APP/0]      OUT 2015-10-29 20:49:59.637 DEBUG 23 --- [io-8080-exec-10] io.pivotal.greeting.GreetingController   : Adding fortune
+2015-10-29T15:50:00.54-0500 [APP/0]      OUT 2015-10-29 20:50:00.548 DEBUG 23 --- [nio-8080-exec-1] io.pivotal.greeting.GreetingController   : Adding greeting
+2015-10-29T15:50:00.56-0500 [APP/0]      OUT 2015-10-29 20:50:00.564 DEBUG 23 --- [nio-8080-exec-1] io.pivotal.greeting.GreetingController   : instanceID: 10.68.104.28:72aa9f59-b27f-4d85-4323-2d79a9d7720c
+2015-10-29T15:50:00.56-0500 [APP/0]      OUT 2015-10-29 20:50:00.564 DEBUG 23 --- [nio-8080-exec-1] io.pivotal.greeting.GreetingController   : fortune service homePageUrl: http://10.68.104.28:60026/
+2015-10-29T15:50:00.57-0500 [APP/0]      OUT 2015-10-29 20:50:00.572 DEBUG 23 --- [nio-8080-exec-1] io.pivotal.greeting.GreetingController   : Adding fortune
 ```
