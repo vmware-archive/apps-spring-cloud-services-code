@@ -126,12 +126,12 @@ In this case, we are manually calling one of those endpoints (`/{application}/{p
 ### Set up `greeting-config`
 
 1) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/greeting-config/pom.xml`
-By adding `spring-cloud-starter-config` to the classpath, this application will consume configuration from the config-server.  `greeting-config` is a config client.
+By adding `spring-cloud-services-starter-config-client` to the classpath, this application will consume configuration from the config-server.  `greeting-config` is a config client.
 
 ```xml
 <dependency>
-    <groupId>org.springframework.cloud</groupId>
-    <artifactId>spring-cloud-starter-config</artifactId>
+	<groupId>io.pivotal.spring.cloud</groupId>
+	<artifactId>spring-cloud-services-starter-config-client</artifactId>
 </dependency>
 ```
 
@@ -155,8 +155,17 @@ $ cd $CLOUD_NATIVE_APP_LABS_HOME/greeting-config
 $ mvn clean spring-boot:run
 ```
 
-4) Confirm the `greeting-config` app is up.  Browse to [http://localhost:8080](http://localhost:8080).  You should see a "Greetings!!!" message.  
+4) Confirm the `greeting-config` app is up.  Browse to [http://localhost:8080](http://localhost:8080).  You should be prompted to authenticate.  Why?  `spring-cloud-services-starter-config-client` has a dependency on [Spring Security](http://projects.spring.io/spring-security/).  Unless the given application has other security configuration, this will cause all application and actuator endpoints to be protected by HTTP Basic authentication.
 
+5) If no explicit username or password has been set then Spring Security will generate one for you.
+
+username: `user`
+
+password: You can find this in the terminal output.  Look for a log message similar to the following: `Using default security password: 90a3ef2a-4e98-4491-a528-a47a7162dd2a`.  Use this password to login.  
+
+***Note:*** Username and password can be explicitly set through the `security.user.name` and `security.user.password` configuration parameters.
+
+6) After logging in you should see the message "Greetings!!!".
 ![greeting-config](resources/images/greeting-config.png "greeting-config")
 
 ***What Just Happened?***
@@ -172,6 +181,33 @@ Located property source: CompositePropertySource [name='configService', property
 There is still no configuration in the git repo, but at this point we have everything wired (`greeting-config` → `config-server` → `app-config` repo) so we can add configuration parameters/values and see the effects in out client application `greeting-config`.
 
 Configuration parameters/values will be added as we move through the lab.
+
+7) Stop the `greeting-config` application
+
+### Unsecure the Endpoints
+
+For these labs we don't need Spring Security's default behavior of securing every endpoint.
+
+1) Edit your fork of the `app-config` repo.  Create a file called `greeting-config.yml`.  Add the content below to the file and push the changes back to GitHub.
+
+```yml
+security:
+  basic:
+    enabled: false # turn of securing our application endpoints
+
+management:
+  security:
+    enabled: false # turn of securing the actuator endpoints
+```
+
+2) Start the `greeting-config` application:
+
+```bash
+$ mvn clean spring-boot:run
+```
+
+3) Browse to [http://localhost:8080](http://localhost:8080).  You should no longer be prompted to authenticate.
+
 
 ### Changing Logging Levels
 
@@ -197,9 +233,17 @@ String getGreeting(Model model){
 We want to see these debug messages.  By default only log levels of `ERROR`, `WARN` and `INFO` will be logged. You will change the log level to `DEBUG` using
 configuration. All log output will be directed to `System.out` & `System.error` by default, so logs will be output to the terminal window(s).
 
-2) Edit your fork of the `app-config` repo.  Create a file called `greeting-config.yml`.  Add the content below to the file and push the changes back to GitHub.
+2) In your fork of the `app-config` repo.  Add the content below to the `greeting-config.yml` file and push the changes back to GitHub.
 ```yml
-logging:
+security:
+  basic:
+    enabled: false # turn of securing our application endpoints
+
+management:
+  security:
+    enabled: false # turn of securing the actuator endpoints
+
+logging: # <----New sections below
   level:
     io:
       pivotal: DEBUG
@@ -208,8 +252,9 @@ greeting:
   displayFortune: false
 
 quoteServiceURL: http://quote-service-dev.cfapps.io/quote
+
 ```
-This file has several configuration parameters that will be used throughout this lab.  For this exercise, we have set the log level for classes in the `io.pivotal` package to `DEBUG`.
+We have added several configuration parameters that will be used throughout this lab.  For this exercise, we have set the log level for classes in the `io.pivotal` package to `DEBUG`.
 
 3) While watching the `greeting-config` terminal, refresh the [http://localhost:8080](http://localhost:8080/) url.  Notice there are no `DEBUG` logs yet.
 
@@ -418,60 +463,71 @@ $ curl -X POST http://localhost:8080/refresh
 
 Configuration from `greeting-config.yml` was overridden by a configuration file that was more specific (`greeting-config-qa.yml`).
 
-### Deploy the `config-server` and `greeting-config` Apps to PCF
+### Deploy the `greeting-config` Application to PCF
 
-1) Package and deploy the `config-server` to PCF.  The `--random-route` flag will generate a random uri for the `config-server`.  Make note of it.  You will use it in the next step. Make sure you are targeting your PCF account and execute the following from
-the `config-server` directory:
 
-```bash
-$ mvn clean package
-$ cf push config-server -p target/config-server-0.0.1-SNAPSHOT.jar -m 512M --random-route
-```
-
-2) Create a user-provided service.  This service describes how to connect to your `config-server` application.  Make sure to use your config-server uri, not the literal below.  For the `uri` please specify `http://` and no trailing `/` at the end.  See example below.
-
-```bash
-$ cf cups config-server -p uri
-$ uri> http://config-server-sectarian-flasket.cfapps.io
-```
-
-3) Add the following to `$CLOUD_NATIVE_APP_LABS_HOME/greeting-config/src/main/resources/bootstrap.yml`.
-
-```yml
-spring:
-  application:
-    name: greeting-config
-  cloud:  # <-- ADD NEW SECTION
-    config:
-      uri: ${vcap.services.config-server.credentials.uri:http://localhost:8888}
-```
-When defining the `spring.cloud.config.uri`, our app will first look for an environment variable (`vcap.services.config-server.credentials.uri`). If it is not present, it will try to connect to the local `config-server`.
-
-4) Package the `greeting-config` application. Execute the following from the `greeting-config` directory:
+1) Package the `greeting-config` application. Execute the following from the `greeting-config` directory:
 
 ```bash
 $ mvn clean package
 ```
 
-5) Deploy the `greeting-config` application to PCF, without starting the application:
+2) Deploy the `greeting-config` application to PCF, without starting the application:
 
 ```bash
 $ cf push greeting-config -p target/greeting-config-0.0.1-SNAPSHOT.jar -m 512M --random-route --no-start
 ```
-6) Bind the `config-server` service to the `greeting-config` app. This will enable the `greeting-config` app to read
+
+3) Create a Config Server Service Instance
+
+Using Apps Manager do the following (for help review the [docs](http://docs.pivotal.io/spring-cloud-services/config-server/creating-an-instance.html)
+:
+
+a) Log into Apps Manager as a Space Developer. In the Marketplace, select Config Server for Pivotal Cloud Foundry.
+![marketplace](resources/images/1_marketplace.png "marketplace")
+
+b) Select the desired plan for the new service.
+![select plan](resources/images/2_select_plan.png "select plan")
+
+c) Name the service `config-server`. Click the Add button.
+![configure](resources/images/3_configure.png "configure")
+
+d) In the ***Services*** list, click the ***Manage*** link under the listing for the new service instance.
+![service successfully added](resources/images/4_service_successfully_added.png "service successfully added")
+
+e) Select a ***Configuration Source*** and enter your fork of the `app-config` repo.
+![dashboard](resources/images/dashboard.png "dashboard")
+
+f) The Config Server instance is now ready to be used.
+
+4) Bind the `config-server` service to the `greeting-config` app. This will enable the `greeting-config` app to read
 configuration values from the `config-server`.
 
 ```bash
 $ cf bind-service greeting-config config-server
 ```
 
-7) Start the `greeting-config` app. The proper environment variables will be set.  You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect_ message from the CLI.  Our app doesn't need to be restaged but just started.
+You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect_ message from the CLI.  Our app doesn't need to be restaged at this time.
+
+5) If using self signed certificates, set the CF_TARGET environment variable to API endpoint of your Elastic Runtime instance.  Make sure to use `https://` not `http://`.
+
+```bash
+cf set-env greeting-config CF_TARGET <your api endpoint>
+```
+
+You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect_ message from the CLI.  Our app doesn't need to be restaged at this time.
+
+***NOTE***
+
+All communication between Spring Cloud Services components are made through HTTPS. If you are on an environment that uses self-signed certs, the Java SSL trust store will not have those certificates.  By adding the CF_TARGET environment variable a trusted domain is added to the Java trust store.  Eventually ERS will drop the self-signed certs into every app container, and removing the need to set the CF_TARGET environment variable.
+
+6) Start the `greeting-config` app. The proper environment variables will be set.
 
 ```bash
 $ cf start greeting-config
 ```
 
-8) Browse to your `greeting-config` application.  Are your configuration settings that were set when developing locally mirrored on PCF?
+7) Browse to your `greeting-config` application.  Are your configuration settings that were set when developing locally mirrored on PCF?
 
 * Is the log level for `io.pivotal` package set to `DEBUG`?  Yes, this can be confirmed with `cf logs` command while refreshing the `greeting-config` `/` endpoint (`http://<your-random-greeting-config-url/`).
 * Is `greeting-config` app displaying the fortune?  Yes, this can be confirmed by visiting the `greeting-config` `/` endpoint.
