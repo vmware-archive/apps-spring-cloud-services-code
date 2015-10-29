@@ -55,12 +55,12 @@ $ mvn clean spring-boot:run
 
 ### Set up `greeting-hystrix`
 
-1) Review the `$CLOUD_NATIVE_APP_LABS_HOME/greeting-hystrix/pom.xml` file.  By adding `spring-cloud-starter-hystrix` to the classpath this application is eligible to use circuit breakers via Hystrix.
+1) Review the `$CLOUD_NATIVE_APP_LABS_HOME/greeting-hystrix/pom.xml` file.  By adding `spring-cloud-services-starter-circuit-breaker` to the classpath this application is eligible to use circuit breakers via Hystrix.
 
 ```xml
 <dependency>
-    <groupId>org.springframework.cloud</groupId>
-    <artifactId>spring-cloud-starter-hystrix</artifactId>
+	<groupId>io.pivotal.spring.cloud</groupId>
+	<artifactId>spring-cloud-services-starter-circuit-breaker</artifactId>
 </dependency>
 ```
 
