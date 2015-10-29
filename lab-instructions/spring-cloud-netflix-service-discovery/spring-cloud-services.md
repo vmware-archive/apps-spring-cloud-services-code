@@ -313,9 +313,9 @@ It can take either of two values:
 
 The `direct` registration method is only compatible with Pivotal Cloud Foundry version 1.5 or higher. In Pivotal Cloud Foundry Operations Manager, within the Pivotal Elastic Runtime tile’s Security Config, the “Enable cross-container traffic within each DEA” or “Enable cross-container traffic” option must be enabled.
 
-When using the `direct` registration method, requests from client applications to registered applications will not go through the Pivotal Cloud Foundry Router. You can utilize this with client-side load balancing techniques using [Spring Cloud and Netflix Ribbon](http://projects.spring.io/spring-cloud/docs/1.0.3/spring-cloud.html#spring-cloud-ribbon).
+When using the `direct` registration method, requests from client applications to registered applications will not go through the Pivotal Cloud Foundry Router. You can utilize this with client-side load balancing techniques using [Spring Cloud and Netflix Ribbon](http://projects.spring.io/spring-cloud/docs/1.0.3/spring-cloud.html#spring-cloud-ribbon). To read more on registration techniques go [here](http://docs.pivotal.io/spring-cloud-services/service-registry/registering-a-service.html).
 
-If cross container traffic has been enabled, in the `app-config` repo add an additional section to the `$APP_CONFIG_REPO_HOME/application.yml` file as seen below.  If using the `route` option then no change is needed; move to the next step.
+If cross container traffic has been enabled, in your fork of the `app-config` repo add an additional section to the `$APP_CONFIG_REPO_HOME/application.yml` file as seen below.  If using the `route` option then no change is needed; move to the next step.
 
 ```yml
 security:
@@ -370,7 +370,7 @@ You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable cha
 5) Set environment variables for the `fortune-service`. Then start the app.
 
 ```bash
-$ cf set-env fortune-service CF_TARGET <your api endpoint>
+$ cf set-env fortune-service CF_TARGET <your api endpoint - make sure it starts with `https://`>
 ```
 
 You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect_ message from the CLI.  We don't need to restage at this time.
@@ -408,7 +408,7 @@ $ cf push greeting-service -p target/greeting-service-0.0.1-SNAPSHOT.jar -m 512M
 ```bash
 $ cf bind-service greeting-service config-server
 $ cf bind-service greeting-service service-registry
-$ cf set-env greeting-service CF_TARGET <your api endpoint>
+$ cf set-env greeting-service CF_TARGET <your api endpoint - make sure it starts with `https://`>
 $ cf start greeting-service
 ```
 You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect_ message from the CLI.  We can just start the `greeting-service`.
