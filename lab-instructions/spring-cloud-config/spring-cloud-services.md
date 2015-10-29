@@ -488,16 +488,16 @@ a) Log into Apps Manager as a Space Developer. In the Marketplace, select Config
 b) Select the desired plan for the new service.
 ![select plan](resources/images/2_select_plan.png "select plan")
 
-c) Name the service `config-server`. Your space may be different.  Click the Add button.
+c) Name the service `config-server`. Your space may be different.  Click the ***Add*** button.
 ![configure](resources/images/3_configure.png "configure")
 
 d) In the ***Services*** list, click the ***Manage*** link under the listing for the new service instance.
 ![service successfully added](resources/images/4_service_successfully_added.png "service successfully added")
 
-e) Select a ***Configuration Source*** and enter your fork of the `app-config` repo.
+e) Select a ***Configuration Source*** and enter your fork of the `app-config` repo.  Do not use the literal below.
 ![dashboard](resources/images/dashboard.png "dashboard")
 
-f) The Config Server instance is now ready to be used.
+f) The Config Server instance (`config-server`) is now ready to be used.
 
 4) Bind the `config-server` service to the `greeting-config` app. This will enable the `greeting-config` app to read
 configuration values from the `config-server`.
