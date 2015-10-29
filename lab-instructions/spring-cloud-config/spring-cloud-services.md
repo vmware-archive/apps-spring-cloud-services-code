@@ -480,8 +480,7 @@ $ cf push greeting-config -p target/greeting-config-0.0.1-SNAPSHOT.jar -m 512M -
 
 3) Create a Config Server Service Instance
 
-Using Apps Manager do the following (for help review the [docs](http://docs.pivotal.io/spring-cloud-services/config-server/creating-an-instance.html)
-):
+Using Apps Manager do the following (for help review the [docs](http://docs.pivotal.io/spring-cloud-services/config-server/creating-an-instance.html)):
 
 a) Log into Apps Manager as a Space Developer. In the Marketplace, select Config Server for Pivotal Cloud Foundry.
 ![marketplace](resources/images/1_marketplace.png "marketplace")
