@@ -488,7 +488,7 @@ a) Log into Apps Manager as a Space Developer. In the Marketplace, select Config
 b) Select the desired plan for the new service.
 ![select plan](resources/images/2_select_plan.png "select plan")
 
-c) Name the service `config-server`. Click the Add button.
+c) Name the service `config-server`. Your space may be different.  Click the Add button.
 ![configure](resources/images/3_configure.png "configure")
 
 d) In the ***Services*** list, click the ***Manage*** link under the listing for the new service instance.
