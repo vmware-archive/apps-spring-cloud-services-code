@@ -182,7 +182,8 @@ $ mvn clean spring-boot:run
 $ mvn clean package
 $ cf push greeting-ribbon-rest -p target/greeting-ribbon-rest-0.0.1-SNAPSHOT.jar -m 512M --random-route --no-start
 $ cf bind-service greeting-ribbon-rest config-server
-$ cf set-env greeting-ribbon-rest SPRING_PROFILES_ACTIVE dev
+$ cf bind-service greeting-ribbon-rest service-registry
+$ cf set-env greeting-ribbon-rest CF_TARGET <your api endpoint - make sure it starts with `https://`>
 $ cf start greeting-ribbon-rest
 ```
 You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect_ message from the CLI. We can just start the `greeting-ribbon-rest` application.
@@ -193,6 +194,8 @@ You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable cha
 
 **Note About This Lab**
 
-Because services (e.g. `fortune-service`) are exposing their `hostname` as the first Cloud Foundry URI (see [Service Discovery Lab](../spring-cloud-netflix-service-discovery/sc-oss.md#update-app-config-for-fortune-service-and-greeting-service-to-run-on-pcf)) this means that requests to them are being routed through the `router` and subsequently load balanced at that layer.  Therefore, client side load balancing doesn't occur.  
+If services (e.g. `fortune-service`) are registering using the first Cloud Foundry URI (using the `route` registration method) this means that requests to them are being routed through the `router` and subsequently load balanced at that layer.  Therefore, client side load balancing doesn't occur.  
 
-Pivotal Cloud Foundry has recently added support for allowing cross container communication.  This will allow applications to communicate with each other without passing through the `router`.  As applied to client-side load balancing, services such as `fortune-service` would register with Eureka using their container IP addresses.  Allowing clients to reach them without going through the `router`.
+Pivotal Cloud Foundry has recently added support for allowing cross container communication.  This will allow applications to communicate with each other without passing through the `router`.  As applied to client-side load balancing, services such as `fortune-service` would register with Eureka using their container IP addresses.  Allowing clients to reach them without going through the `router`.  This is known as using the `direct` registration method.
+
+For more details, please read the [following](http://docs.pivotal.io/spring-cloud-services/service-registry/registering-a-service.html).
