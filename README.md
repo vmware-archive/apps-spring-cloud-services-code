@@ -21,4 +21,4 @@ Local system [requirements](lab-instructions/requirements.md) or use the [Window
 1. [Spring Cloud Netflix: Service Discovery](lab-instructions/spring-cloud-netflix-service-discovery/spring-cloud-services.md)
 1. [Spring Cloud Netflix: Client Side Load Balancing](lab-instructions/spring-cloud-netflix-client-side-load-balancer/spring-cloud-services.md)
 1. [Spring Cloud Netflix: Circuit Breaking](lab-instructions/spring-cloud-netflix-circuit-breaking/spring-cloud-services.md)
-1. [Spring Cloud Netflix: Circuit Breaking Metric Aggregation](lab-instructions/spring-cloud-netflix-circuit-breaking-metric-aggregation/sc-oss.md)
+1. [Spring Cloud Netflix: Circuit Breaking Metric Aggregation](lab-instructions/spring-cloud-netflix-circuit-breaking-metric-aggregation/spring-cloud-services.md)
