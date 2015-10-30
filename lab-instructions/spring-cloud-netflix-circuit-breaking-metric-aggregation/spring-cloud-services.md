@@ -172,4 +172,4 @@ You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable cha
 
 ***What Just Happened?***
 
-The `greeting-hystrix` application is publishing metrics via AMQP to RabbitMQ (this can be discovered by looking at VCAP_SERVICES).  Those metrics are then consumed and aggregated by Turbine.  The Circuit Breaker Dashboard then consumes the Turbine endpoint.  All of this detail has been abstracted away by using the PCF Circuit Break Dashboard Service.
+The `greeting-hystrix` application is publishing metrics via AMQP to RabbitMQ (this can be discovered by looking at VCAP_SERVICES).  Those metrics are then consumed and aggregated by Turbine.  The Circuit Breaker Dashboard then consumes the Turbine endpoint.  All of this detail has been abstracted away by using the PCF Circuit Breaker Dashboard Service.

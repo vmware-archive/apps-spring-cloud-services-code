@@ -13,12 +13,12 @@
 
 
 
-  <parent>
-    <groupId>io.pivotal.spring.cloud</groupId>
-    <artifactId>spring-cloud-services-starter-parent</artifactId>
-    <version>1.0.0.RC3</version>
-    <relativePath/> <!-- lookup parent from repository -->
-  </parent>
+	<parent>
+		<groupId>io.pivotal.spring.cloud</groupId>
+		<artifactId>spring-cloud-services-starter-parent</artifactId>
+		<version>1.0.0.RC3</version>
+		<relativePath /> <!-- lookup parent from repository -->
+	</parent>
 
 
 
