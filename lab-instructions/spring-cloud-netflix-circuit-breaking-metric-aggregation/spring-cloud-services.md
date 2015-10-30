@@ -6,12 +6,10 @@
 	- [Requirements](#requirements)
 	- [What You Will Learn](#what-you-will-learn)
 	- [Exercises](#exercises)
-		- [Start the  `config-server`,  `service-registry`, `fortune-service`, `greeting-hystrix`, and `hystrix-dashboard`](#start-the-config-server-service-registry-fortune-service-greeting-hystrix-and-hystrix-dashboard)
+		- [Start the  `config-server`,  `service-registry`, `fortune-service`, `greeting-hystrix`, and `hystrix-dashboard` applications](#start-the-config-server-service-registry-fortune-service-greeting-hystrix-and-hystrix-dashboard-applications)
 		- [Set up `turbine`](#set-up-turbine)
 		- [Deploying to PCF](#deploying-to-pcf)
 		- [Deploy `greeting-hystrix` to PCF](#deploy-greeting-hystrix-to-pcf)
-		- [Deploy `turbine-amqp` to PCF](#deploy-turbine-amqp-to-pcf)
-		- [Deploy `hystrix-dashboard` to PCF](#deploy-hystrix-dashboard-to-pcf)
 <!-- /TOC -->
 
 Estimated Time: 25 minutes
@@ -172,4 +170,4 @@ You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable cha
 
 ***What Just Happened?***
 
-The `greeting-hystrix` application is publishing metrics via AMQP to RabbitMQ (this can be discovered by looking at VCAP_SERVICES).  Those metrics are then consumed and aggregated by Turbine.  The Circuit Breaker Dashboard then consumes the Turbine endpoint.  All of this detail has been abstracted away by using the PCF Circuit Breaker Dashboard Service.
+The `greeting-hystrix` application is publishing metrics via AMQP to RabbitMQ (this can be discovered by looking at `VCAP_SERVICES`).  Those metrics are then consumed and aggregated by Turbine.  The Circuit Breaker Dashboard then consumes the Turbine endpoint.  All of this detail has been abstracted away by using the PCF Circuit Breaker Dashboard Service.
