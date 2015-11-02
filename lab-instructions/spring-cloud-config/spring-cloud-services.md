@@ -204,7 +204,7 @@ management:
 ```
 
 
-2) Browse to [http://localhost:8888/greeting-config/default](http://localhost:8888/greeting-config/default) to review what the `config-server` is serving up.
+2) Browse to [http://localhost:8888/greeting-config/default](http://localhost:8888/greeting-config/default) to review the configuration the  `config-server` is providing for `greeting-config` application.
 
 ![security](resources/images/security.png "security")
 
