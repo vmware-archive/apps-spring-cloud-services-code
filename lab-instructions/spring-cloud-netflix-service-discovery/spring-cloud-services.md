@@ -357,7 +357,7 @@ $ cf push fortune-service -p target/fortune-service-0.0.1-SNAPSHOT.jar -m 512M -
 $ cf create-service p-service-registry standard service-registry
 ```
 
-4) Bind services to the `fortune-service`.  The `service-registry` service instance will not be immediately bindable.  It needs a fe moments to initialize.
+4) Bind services to the `fortune-service`.  The `service-registry` service instance will not be immediately bindable.  It needs a few moments to initialize.
 
 ```bash
 $ cf bind-service fortune-service config-server
@@ -375,7 +375,7 @@ Server error, status code: 502, error code: 10001, message: Service broker error
 You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect_ message from the CLI.  We don't need to restage at this time.
 
 
-5) If using self signed certificates, set the `CF_TARGET` environment variable for the `fortune-service`.
+5) If using self-signed certificates, set the `CF_TARGET` environment variable for the `fortune-service`.
 
 ```bash
 $ cf set-env fortune-service CF_TARGET <your api endpoint - make sure it starts with "https://">
