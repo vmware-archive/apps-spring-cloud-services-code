@@ -55,7 +55,7 @@ $ mvn clean spring-boot:run
 
 In this case, we don't need to explicitly include Ribbon support in the `pom.xml`.  Ribbon support is pulled in through transitive dependencies (dependencies of the dependencies we have already defined).
 
-1) Review the the following file: `$SPRING_CLOUD_SERVICES_LABS_HOME/greeting-ribbon/src/main/java/io/pivotal/greeting/GreetingController.java`.  Notice the `loadBalancerClient`.  It is a client side load balancer (ribbon).  Review the `fetchFortuneServiceUrl()` method.  Ribbon is integrated with Eureka so that it can discover services as well.  Notice how the `loadBalancerClient` chooses a service instance by name.
+1) Review the the following file: `$SPRING_CLOUD_SERVICES_LABS_HOME/greeting-ribbon/src/main/java/io/pivotal/greeting/GreetingController.java`.  Notice the `loadBalancerClient`.  It is a client side load balancer (Ribbon).  Review the `fetchFortuneServiceUrl()` method.  Ribbon is integrated with Eureka so that it can discover services as well.  Notice how the `loadBalancerClient` chooses a service instance by name.
 
 ```java
 @Controller
@@ -176,21 +176,39 @@ $ mvn clean spring-boot:run
 
 ### Deploy the `greeting-ribbon-rest` to PCF
 
-1) Package, push, bind services and set environment variables for `greeting-ribbon-rest`.
+1) Package and push the `greeting-ribbon-rest` application.
 
 ```
 $ mvn clean package
 $ cf push greeting-ribbon-rest -p target/greeting-ribbon-rest-0.0.1-SNAPSHOT.jar -m 512M --random-route --no-start
+```
+
+2) Bind services for the `greeting-ribbon-rest`.
+
+```bash
 $ cf bind-service greeting-ribbon-rest config-server
 $ cf bind-service greeting-ribbon-rest service-registry
+```
+You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect_ message from the CLI.  We don't need to restage at this time.
+
+3) If using self signed certificates, set the `CF_TARGET` environment variable for the `greeting-ribbon-rest` application.
+
+```bash
 $ cf set-env greeting-ribbon-rest CF_TARGET <your api endpoint - make sure it starts with "https://">
+```
+
+You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect_ message from the CLI.  We don't need to restage at this time.
+
+
+4) Start the `greeting-ribbon-rest` app.
+
+```bash
 $ cf start greeting-ribbon-rest
 ```
-You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect_ message from the CLI. We can just start the `greeting-ribbon-rest` application.
 
-2) After the a few moments, check the `service-registry`.  Confirm the `greeting-ribbon-rest` app is registered.
+5) After the a few moments, check the `service-registry`.  Confirm the `greeting-ribbon-rest` app is registered.
 
-3) Refresh the `greeting-ribbon-rest` `/` endpoint.
+6) Refresh the `greeting-ribbon-rest` `/` endpoint.
 
 **Note About This Lab**
 
