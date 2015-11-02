@@ -189,7 +189,7 @@ Configuration parameters/values will be added as we move through the lab.
 
 ### Unsecure the Endpoints
 
-For these labs we don't need Spring Security's default behavior of securing every endpoint.
+For these labs we don't need Spring Security's default behavior of securing every endpoint.  This will be our first example of using the `config-server` to serve configuration for the `greeting-config` application.
 
 1) Edit your fork of the `app-config` repo.  Create a file called `greeting-config.yml`.  Add the content below to the file and push the changes back to GitHub.
 
@@ -203,14 +203,24 @@ management:
     enabled: false # turn of securing the actuator endpoints
 ```
 
-2) Start the `greeting-config` application:
+
+2) Browse to [http://localhost:8888/greeting-config/default](http://localhost:8888/greeting-config/default) to review what the `config-server` is serving up.
+
+![security](resources/images/security.png "security")
+
+3) Start the `greeting-config` application:
 
 ```bash
 $ mvn clean spring-boot:run
 ```
 
-3) Browse to [http://localhost:8080](http://localhost:8080).  You should no longer be prompted to authenticate.
+4) Review the logs for the `greeting-config` application.  You can see that configuration is being sourced from the `greeting-config.yml` file.
 
+```
+2015-11-02 08:57:32.962  INFO 58597 --- [lication.main()] b.c.PropertySourceBootstrapConfiguration : Located property source: CompositePropertySource [name='configService', propertySources=[MapPropertySource [name='https://github.com/d4v3r/app-config.git/greeting-config.yml']]]
+```
+
+5) Browse to [http://localhost:8080](http://localhost:8080).  You should no longer be prompted to authenticate.
 
 ### Changing Logging Levels
 
