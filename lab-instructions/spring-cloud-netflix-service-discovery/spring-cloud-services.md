@@ -431,7 +431,7 @@ You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable cha
 5) Start the `greeting-service` app.
 
 ```bash
-$ cf start fortune-service
+$ cf start greeting-service
 ```
 
 
