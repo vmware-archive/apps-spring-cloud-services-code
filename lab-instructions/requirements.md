@@ -7,7 +7,7 @@
 2. Experience with [Spring](https://spring.io/)
 
 
-### Pivotal Cloud Foundry environment
+### Pivotal Cloud Foundry Environment
 
 1. Access to Pivotal Cloud Foundry Environment
 
