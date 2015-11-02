@@ -31,21 +31,21 @@ Estimated Time: 25 minutes
 1) Start the `config-server` in a terminal window.  You may have terminal windows still open from previous labs.  They may be reused for this lab.
 
 ```bash
-$ cd $CLOUD_NATIVE_APP_LABS_HOME/config-server
+$ cd $SPRING_CLOUD_SERVICES_LABS_HOME/config-server
 $ mvn clean spring-boot:run
 ```
 
 2) Start the `service-registry`
 
 ```bash
-$ cd $CLOUD_NATIVE_APP_LABS_HOME/service-registry
+$ cd $SPRING_CLOUD_SERVICES_LABS_HOME/service-registry
 $ mvn clean spring-boot:run
 ```
 
 3) Start the `fortune-service`
 
 ```bash
-$ cd $CLOUD_NATIVE_APP_LABS_HOME/fortune-service
+$ cd $SPRING_CLOUD_SERVICES_LABS_HOME/fortune-service
 $ mvn clean spring-boot:run
 ```
 
@@ -55,7 +55,7 @@ $ mvn clean spring-boot:run
 
 In this case, we don't need to explicitly include Ribbon support in the `pom.xml`.  Ribbon support is pulled in through transitive dependencies (dependencies of the dependencies we have already defined).
 
-1) Review the the following file: `$CLOUD_NATIVE_APP_LABS_HOME/greeting-ribbon/src/main/java/io/pivotal/greeting/GreetingController.java`.  Notice the `loadBalancerClient`.  It is a client side load balancer (ribbon).  Review the `fetchFortuneServiceUrl()` method.  Ribbon is integrated with Eureka so that it can discover services as well.  Notice how the `loadBalancerClient` chooses a service instance by name.
+1) Review the the following file: `$SPRING_CLOUD_SERVICES_LABS_HOME/greeting-ribbon/src/main/java/io/pivotal/greeting/GreetingController.java`.  Notice the `loadBalancerClient`.  It is a client side load balancer (ribbon).  Review the `fetchFortuneServiceUrl()` method.  Ribbon is integrated with Eureka so that it can discover services as well.  Notice how the `loadBalancerClient` chooses a service instance by name.
 
 ```java
 @Controller
@@ -106,7 +106,7 @@ public class GreetingController {
 2) Open a new terminal window.  Start the `greeting-ribbon` app.
 
  ```bash
-$ cd $CLOUD_NATIVE_APP_LABS_HOME/greeting-ribbon
+$ cd $SPRING_CLOUD_SERVICES_LABS_HOME/greeting-ribbon
 $ mvn clean spring-boot:run
 ```
 
@@ -123,7 +123,7 @@ $ mvn clean spring-boot:run
 
 In this case, we don't need to explicitly include Ribbon support in the `pom.xml`.  Ribbon support is pulled in through transitive dependencies (dependencies of the dependencies we have already defined).
 
-1) Review the the following file: `$CLOUD_NATIVE_APP_LABS_HOME/greeting-ribbon-rest/src/main/java/io/pivotal/greeting/GreetingController.java`.  Notice the `RestTemplate`.  It is not the usual `RestTemplate`, it is load balanced by Ribbon.  The `@LoadBalanced` annotation is a qualifier to ensure we get the load balanced `RestTemplate` injected.  This further simplifies application code.
+1) Review the the following file: `$SPRING_CLOUD_SERVICES_LABS_HOME/greeting-ribbon-rest/src/main/java/io/pivotal/greeting/GreetingController.java`.  Notice the `RestTemplate`.  It is not the usual `RestTemplate`, it is load balanced by Ribbon.  The `@LoadBalanced` annotation is a qualifier to ensure we get the load balanced `RestTemplate` injected.  This further simplifies application code.
 
 ```java
 @Controller
@@ -163,7 +163,7 @@ public class GreetingController {
 2) Open a new terminal window.  Start the `greeting-ribbon-rest` app.
 
  ```bash
-$ cd $CLOUD_NATIVE_APP_LABS_HOME/greeting-ribbon-rest
+$ cd $SPRING_CLOUD_SERVICES_LABS_HOME/greeting-ribbon-rest
 $ mvn clean spring-boot:run
 ```
 

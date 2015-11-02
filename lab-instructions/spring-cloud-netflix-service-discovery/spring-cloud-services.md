@@ -69,7 +69,7 @@ Application specific files override configuration settings in the `application.y
 1) Start the `config-server` in a terminal window.  You may have a terminal window still open from the previous lab.
 
 ```bash
-$ cd $CLOUD_NATIVE_APP_LABS_HOME/config-server
+$ cd $SPRING_CLOUD_SERVICES_LABS_HOME/config-server
 $ mvn clean spring-boot:run
 ```
 
@@ -81,7 +81,7 @@ Note that a random application name was used and it picked up configuration from
 
 ### Set up `service-registry`
 
-1) Review the `$CLOUD_NATIVE_APP_LABS_HOME/service-registry/pom.xml` file.  By adding `spring-cloud-starter-eureka-server` to the classpath this application is eligible to embed an Eureka server.
+1) Review the `$SPRING_CLOUD_SERVICES_LABS_HOME/service-registry/pom.xml` file.  By adding `spring-cloud-starter-eureka-server` to the classpath this application is eligible to embed an Eureka server.
 
 ```xml
 <dependency>
@@ -90,7 +90,7 @@ Note that a random application name was used and it picked up configuration from
 </dependency>
 ```
 
-2) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/service-registry/src/main/java/io/pivotal/ServiceRegistryApplication.java`.  Note the use of the ` @EnableEurekaServer` annotation that makes this application a Eureka server.
+2) Review the following file: `$SPRING_CLOUD_SERVICES_LABS_HOME/service-registry/src/main/java/io/pivotal/ServiceRegistryApplication.java`.  Note the use of the ` @EnableEurekaServer` annotation that makes this application a Eureka server.
 
 ```java
  @SpringBootApplication
@@ -103,7 +103,7 @@ Note that a random application name was used and it picked up configuration from
  }
 ```
 
-3). Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/service-registry/src/main/resources/application.yml`
+3). Review the following file: `$SPRING_CLOUD_SERVICES_LABS_HOME/service-registry/src/main/resources/application.yml`
 
 ```yml
  server:
@@ -143,7 +143,7 @@ With the above configuration, we have configured Eureka to run in standalone mod
 4) Open a new terminal window.  Start the `service-registry`.
 
 ```bash
-$ cd $CLOUD_NATIVE_APP_LABS_HOME/service-registry
+$ cd $SPRING_CLOUD_SERVICES_LABS_HOME/service-registry
 $ mvn clean spring-boot:run
 ```
 
@@ -152,7 +152,7 @@ $ mvn clean spring-boot:run
 
 ### Set up `fortune-service`
 
-1) Review the `$CLOUD_NATIVE_APP_LABS_HOME/fortune-service/src/main/resources/bootstrap.yml` file.  The name of this app is `fortune-service`.  It also uses the `config-server`.
+1) Review the `$SPRING_CLOUD_SERVICES_LABS_HOME/fortune-service/src/main/resources/bootstrap.yml` file.  The name of this app is `fortune-service`.  It also uses the `config-server`.
 
 ```yml
  server:
@@ -164,7 +164,7 @@ $ mvn clean spring-boot:run
 
 `spring.application.name` is the name the application will use when registering with Eureka.
 
-2) Review the `$CLOUD_NATIVE_APP_LABS_HOME/fortune-service/pom.xml` file.  By adding `spring-cloud-services-starter-service-registry` to the classpath this application is eligible to register and discover services with the `service-registry`.
+2) Review the `$SPRING_CLOUD_SERVICES_LABS_HOME/fortune-service/pom.xml` file.  By adding `spring-cloud-services-starter-service-registry` to the classpath this application is eligible to register and discover services with the `service-registry`.
 
 ```xml
 <dependency>
@@ -173,7 +173,7 @@ $ mvn clean spring-boot:run
 </dependency>
 ```
 
-3) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/fortune-service/src/main/java/io/pivotal/FortuneServiceApplication.java`.  Notice the `@EnableDiscoveryClient`.  This enables a discovery client that registers the `fortune-service` with the `service-registry` application.
+3) Review the following file: `$SPRING_CLOUD_SERVICES_LABS_HOME/fortune-service/src/main/java/io/pivotal/FortuneServiceApplication.java`.  Notice the `@EnableDiscoveryClient`.  This enables a discovery client that registers the `fortune-service` with the `service-registry` application.
 
 ```java
 @SpringBootApplication
@@ -189,7 +189,7 @@ public class FortuneServiceApplication {
 4) Open a new terminal window.  Start the `fortune-service`
 
  ```bash
-$ cd $CLOUD_NATIVE_APP_LABS_HOME/fortune-service
+$ cd $SPRING_CLOUD_SERVICES_LABS_HOME/fortune-service
 $ mvn clean spring-boot:run
 ```
 
@@ -202,7 +202,7 @@ The Eureka Dashboard may report a warning, because we aren't setup with multiple
 
 ### Set up `greeting-service`
 
-1) Review the `$CLOUD_NATIVE_APP_LABS_HOME/greeting-service/src/main/resources/bootstrap.yml` file.  The name of this app is `greeting-service`.  It also uses the `config-server`.
+1) Review the `$SPRING_CLOUD_SERVICES_LABS_HOME/greeting-service/src/main/resources/bootstrap.yml` file.  The name of this app is `greeting-service`.  It also uses the `config-server`.
 
 ```yml
  server:
@@ -212,7 +212,7 @@ The Eureka Dashboard may report a warning, because we aren't setup with multiple
      name: greeting-service
 ```
 
-2) Review the `$CLOUD_NATIVE_APP_LABS_HOME/greeting-service/pom.xml` file.  By adding `spring-cloud-services-starter-service-registry` to the classpath this application is eligible to register and discover services with the `service-registry`.
+2) Review the `$SPRING_CLOUD_SERVICES_LABS_HOME/greeting-service/pom.xml` file.  By adding `spring-cloud-services-starter-service-registry` to the classpath this application is eligible to register and discover services with the `service-registry`.
 
 ```xml
 <dependency>
@@ -222,7 +222,7 @@ The Eureka Dashboard may report a warning, because we aren't setup with multiple
 ```
 
 
-3) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/greeting-service/src/main/java/io/pivotal/GreetingServiceApplication.java`.  Notice the `@EnableDiscoveryClient`.   This enables a discovery client that registers the `greeting-service` app with the `service-registry`.
+3) Review the following file: `$SPRING_CLOUD_SERVICES_LABS_HOME/greeting-service/src/main/java/io/pivotal/GreetingServiceApplication.java`.  Notice the `@EnableDiscoveryClient`.   This enables a discovery client that registers the `greeting-service` app with the `service-registry`.
 
  ```java
  @SpringBootApplication
@@ -237,7 +237,7 @@ The Eureka Dashboard may report a warning, because we aren't setup with multiple
  }
 ```
 
-4) Review the the following file: `$CLOUD_NATIVE_APP_LABS_HOME/greeting-service/src/main/java/io/pivotal/greeting/GreetingController.java`.  Notice the `DiscoveryClient`.  `DiscoveryClient` is used to discover services registered with the `service-registry`.  See `fetchFortuneServiceUrl()`.
+4) Review the the following file: `$SPRING_CLOUD_SERVICES_LABS_HOME/greeting-service/src/main/java/io/pivotal/greeting/GreetingController.java`.  Notice the `DiscoveryClient`.  `DiscoveryClient` is used to discover services registered with the `service-registry`.  See `fetchFortuneServiceUrl()`.
 
 ```java
 @Controller
@@ -285,7 +285,7 @@ public class GreetingController {
 5) Open a new terminal window.  Start the `greeting-service` app
 
  ```bash
-$ cd $CLOUD_NATIVE_APP_LABS_HOME/greeting-service
+$ cd $SPRING_CLOUD_SERVICES_LABS_HOME/greeting-service
 $ mvn clean spring-boot:run
 ```
 

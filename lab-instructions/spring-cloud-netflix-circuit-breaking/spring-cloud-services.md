@@ -34,28 +34,28 @@ Estimated Time: 25 minutes
 1) Start the `config-server` in a terminal window.  You may have terminal windows still open from previous labs.  They may be reused for this lab.
 
 ```bash
-$ cd $CLOUD_NATIVE_APP_LABS_HOME/config-server
+$ cd $SPRING_CLOUD_SERVICES_LABS_HOME/config-server
 $ mvn clean spring-boot:run
 ```
 
 2) Start the `service-registry`
 
 ```bash
-$ cd $CLOUD_NATIVE_APP_LABS_HOME/service-registry
+$ cd $SPRING_CLOUD_SERVICES_LABS_HOME/service-registry
 $ mvn clean spring-boot:run
 ```
 
 3) Start the `fortune-service`
 
 ```bash
-$ cd $CLOUD_NATIVE_APP_LABS_HOME/fortune-service
+$ cd $SPRING_CLOUD_SERVICES_LABS_HOME/fortune-service
 $ mvn clean spring-boot:run
 ```
 
 
 ### Set up `greeting-hystrix`
 
-1) Review the `$CLOUD_NATIVE_APP_LABS_HOME/greeting-hystrix/pom.xml` file.  By adding `spring-cloud-services-starter-circuit-breaker` to the classpath this application is eligible to use circuit breakers via Hystrix.
+1) Review the `$SPRING_CLOUD_SERVICES_LABS_HOME/greeting-hystrix/pom.xml` file.  By adding `spring-cloud-services-starter-circuit-breaker` to the classpath this application is eligible to use circuit breakers via Hystrix.
 
 ```xml
 <dependency>
@@ -64,7 +64,7 @@ $ mvn clean spring-boot:run
 </dependency>
 ```
 
-2) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/greeting-hystrix/src/main/java/io/pivotal/GreetingHystrixApplication.java`.  Note the use of the `@EnableCircuitBreaker` annotation. This allows the application to create circuit breakers.
+2) Review the following file: `$SPRING_CLOUD_SERVICES_LABS_HOME/greeting-hystrix/src/main/java/io/pivotal/GreetingHystrixApplication.java`.  Note the use of the `@EnableCircuitBreaker` annotation. This allows the application to create circuit breakers.
 
 ```java
 @SpringBootApplication
@@ -80,7 +80,7 @@ public class GreetingHystrixApplication {
 }
 ```
 
-3). Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/greeting-hystrix/src/main/java/io/pivotal/fortune/FortuneService.java`.  Note the use of the `@HystrixCommand`.  This is our circuit breaker.  If `getFortune()` fails, a fallback method `defaultFortune` will be invoked.
+3). Review the following file: `$SPRING_CLOUD_SERVICES_LABS_HOME/greeting-hystrix/src/main/java/io/pivotal/fortune/FortuneService.java`.  Note the use of the `@HystrixCommand`.  This is our circuit breaker.  If `getFortune()` fails, a fallback method `defaultFortune` will be invoked.
 
 ```java
 @Service
@@ -113,7 +113,7 @@ public class FortuneService {
 4) Open a new terminal window. Start the `greeting-hystrix`
 
 ```bash
-$ cd $CLOUD_NATIVE_APP_LABS_HOME/greeting-hystrix
+$ cd $SPRING_CLOUD_SERVICES_LABS_HOME/greeting-hystrix
 $ mvn clean spring-boot:run
 ```
 
@@ -133,7 +133,7 @@ Being able to monitor the state of our circuit breakers is highly valuable, but 
 
 This is accomplished by including the `actuator` dependency in the `greeting-hystrix` `pom.xml`.
 
-1) Review the `$CLOUD_NATIVE_APP_LABS_HOME/greeting-hystrix/pom.xml` file.  By adding `spring-boot-starter-actuator` to the classpath this application will publish metrics at the `/hystrix.stream` endpoint.
+1) Review the `$SPRING_CLOUD_SERVICES_LABS_HOME/greeting-hystrix/pom.xml` file.  By adding `spring-boot-starter-actuator` to the classpath this application will publish metrics at the `/hystrix.stream` endpoint.
 
 ```xml
 <dependency>
@@ -149,7 +149,7 @@ This is accomplished by including the `actuator` dependency in the `greeting-hys
 
 Consuming the metric stream is difficult to interpret on our own.  The metric stream can be visualized with the Hystrix Dashboard.
 
-1) Review the `$CLOUD_NATIVE_APP_LABS_HOME/hystrix-dashboard/pom.xml` file.  By adding `spring-cloud-starter-hystrix-dashboard` to the classpath this application is exposes a Hystrix Dashboard.
+1) Review the `$SPRING_CLOUD_SERVICES_LABS_HOME/hystrix-dashboard/pom.xml` file.  By adding `spring-cloud-starter-hystrix-dashboard` to the classpath this application is exposes a Hystrix Dashboard.
 
 ```xml
 <dependency>
@@ -158,7 +158,7 @@ Consuming the metric stream is difficult to interpret on our own.  The metric st
 </dependency>
 ```
 
-2) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/hystrix-dashboard/src/main/java/io/pivotal/HystrixDashboardApplication.java`.  Note the use of the `@EnableHystrixDashboard` annotation. This creates a Hystrix Dashboard.
+2) Review the following file: `$SPRING_CLOUD_SERVICES_LABS_HOME/hystrix-dashboard/src/main/java/io/pivotal/HystrixDashboardApplication.java`.  Note the use of the `@EnableHystrixDashboard` annotation. This creates a Hystrix Dashboard.
 
 ```java
 @SpringBootApplication
@@ -174,7 +174,7 @@ public class HystrixDashboardApplication {
 3) Open a new terminal window. Start the `hystrix-dashboard`
 
 ```bash
-$ cd $CLOUD_NATIVE_APP_LABS_HOME/hystrix-dashboard
+$ cd $SPRING_CLOUD_SERVICES_LABS_HOME/hystrix-dashboard
 $ mvn clean spring-boot:run
 ```
 

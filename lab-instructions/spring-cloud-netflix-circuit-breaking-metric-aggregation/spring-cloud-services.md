@@ -33,35 +33,35 @@ Estimated Time: 25 minutes
 1) Start the `config-server` in a terminal window.  You may have terminal windows still open from previous labs.  They may be reused for this lab.
 
 ```bash
-$ cd $CLOUD_NATIVE_APP_LABS_HOME/config-server
+$ cd $SPRING_CLOUD_SERVICES_LABS_HOME/config-server
 $ mvn clean spring-boot:run
 ```
 
 2) Start the `service-registry`
 
 ```bash
-$ cd $CLOUD_NATIVE_APP_LABS_HOME/service-registry
+$ cd $SPRING_CLOUD_SERVICES_LABS_HOME/service-registry
 $ mvn clean spring-boot:run
 ```
 
 3) Start the `fortune-service`
 
 ```bash
-$ cd $CLOUD_NATIVE_APP_LABS_HOME/fortune-service
+$ cd $SPRING_CLOUD_SERVICES_LABS_HOME/fortune-service
 $ mvn clean spring-boot:run
 ```
 
 4) Start the `greeting-hystrix`
 
 ```bash
-$ cd $CLOUD_NATIVE_APP_LABS_HOME/greeting-hystrix
+$ cd $SPRING_CLOUD_SERVICES_LABS_HOME/greeting-hystrix
 $ mvn clean spring-boot:run
 ```
 
 5) Start the `hystrix-dashboard`
 
 ```bash
-$ cd $CLOUD_NATIVE_APP_LABS_HOME/hystrix-dashboard
+$ cd $SPRING_CLOUD_SERVICES_LABS_HOME/hystrix-dashboard
 $ mvn clean spring-boot:run
 ```
 
@@ -71,7 +71,7 @@ Allow a few moments for `greeting-hystrix` and `fortune-service` to register wit
 
 Looking at individual application instances in the Hystrix Dashboard is not very useful in terms of understanding the overall health of the system. Turbine is an application that aggregates all of the relevant `/hystrix.stream` endpoints into a combined `/turbine.stream` for use in the Hystrix Dashboard.
 
-1) Review the `$CLOUD_NATIVE_APP_LABS_HOME/turbine/pom.xml` file.  By adding `spring-cloud-starter-turbine` to the classpath this application is eligible to aggregate metrics via Turbine.
+1) Review the `$SPRING_CLOUD_SERVICES_LABS_HOME/turbine/pom.xml` file.  By adding `spring-cloud-starter-turbine` to the classpath this application is eligible to aggregate metrics via Turbine.
 
 ```xml
 <dependency>
@@ -80,7 +80,7 @@ Looking at individual application instances in the Hystrix Dashboard is not very
 </dependency>
 ```
 
-2) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/turbine/src/main/java/io/pivotal/TurbineApplication.java`.  Note the use of the `@EnableTurbine` annotation. This creates a turbine application.
+2) Review the following file: `$SPRING_CLOUD_SERVICES_LABS_HOME/turbine/src/main/java/io/pivotal/TurbineApplication.java`.  Note the use of the `@EnableTurbine` annotation. This creates a turbine application.
 
 ```java
 @SpringBootApplication
@@ -95,7 +95,7 @@ public class TurbineApplication {
 }
 ```
 
-3). Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/turbine/src/main/resources/bootstrap.yml`.  `turbine.appConfig` is a list of Eureka `serviceIds` that Turbine will use to lookup instances.  `turbine.aggregator.clusterConfig` is the Turbine cluster these services belong to (how they will be grouped).
+3). Review the following file: `$SPRING_CLOUD_SERVICES_LABS_HOME/turbine/src/main/resources/bootstrap.yml`.  `turbine.appConfig` is a list of Eureka `serviceIds` that Turbine will use to lookup instances.  `turbine.aggregator.clusterConfig` is the Turbine cluster these services belong to (how they will be grouped).
 
 ```yml
 spring:
@@ -110,7 +110,7 @@ turbine:
 4) Open a new terminal window. Start the `turbine` app
 
 ```bash
-$ cd $CLOUD_NATIVE_APP_LABS_HOME/turbine
+$ cd $SPRING_CLOUD_SERVICES_LABS_HOME/turbine
 $ mvn clean spring-boot:run
 ```
 

@@ -32,7 +32,7 @@ Estimated Time: 30 minutes
 
 Spring Boot includes a number of additional features to help you monitor and manage your application when it’s pushed to production.  These features are added by adding `spring-boot-starter-actuator` to the classpath.
 
-1) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-actuator/pom.xml`.
+1) Review the following file: `$SPRING_CLOUD_SERVICES_LABS_HOME/hello-spring-boot-actuator/pom.xml`.
 
 ```xml
 <dependency>
@@ -47,7 +47,7 @@ Spring Boot includes a number of additional features to help you monitor and man
 1.) Open a new terminal window.  Run the `hello-spring-boot-actuator` application:
 
 ```bash
-$ cd $CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-actuator
+$ cd $SPRING_CLOUD_SERVICES_LABS_HOME/hello-spring-boot-actuator
 $ mvn clean spring-boot:run
 ```
 
@@ -91,7 +91,7 @@ Spring Boot provides an endpoint (http://localhost:8080/info) that allows the ex
 
 One thing that `actuator` does well is expose information about the specific build and version control coordinates for a given deployment.
 
-1) Edit the following file: `$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-actuator/pom.xml`.  Add the `git-commit-id-plugin` to your Maven build.  _You must edit the file._  The `git-commit-id-plugin` adds Git branch and commit coordinates to the `/info` endpoint:
+1) Edit the following file: `$SPRING_CLOUD_SERVICES_LABS_HOME/hello-spring-boot-actuator/pom.xml`.  Add the `git-commit-id-plugin` to your Maven build.  _You must edit the file._  The `git-commit-id-plugin` adds Git branch and commit coordinates to the `/info` endpoint:
 
 ```xml
 <plugin>
@@ -182,11 +182,11 @@ $ mvn clean spring-boot:run
 
 ***What Just Happened?***
 
-By including the `git-commit-id-plugin`, details about git commit information will be included in the `/info` endpoint.  Git information is captured in a `git.properties` file that is generated with the build.  Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-actuator/target/classes/git.properties`.
+By including the `git-commit-id-plugin`, details about git commit information will be included in the `/info` endpoint.  Git information is captured in a `git.properties` file that is generated with the build.  Review the following file: `$SPRING_CLOUD_SERVICES_LABS_HOME/hello-spring-boot-actuator/target/classes/git.properties`.
 
 ### Include Build Info
 
-1) Add the following properties to `$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-actuator/src/main/resources/application.yml`.  _You must edit the file._
+1) Add the following properties to `$SPRING_CLOUD_SERVICES_LABS_HOME/hello-spring-boot-actuator/src/main/resources/application.yml`.  _You must edit the file._
 
 ```yaml
 greeting: Hello
@@ -227,7 +227,7 @@ Spring Boot provides an endpoint [http://localhost:8080/health](http://localhost
 Normally, when Spring Security is not enabled, the `/health` endpoint will only expose an `UP` or `DOWN` value.
 ![health](resources/images/health-basic.png "health")
 
-1) To simplify working with the endpoint for this lab, we will turn off its sensitivity. Add the following to `$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-actuator/src/main/resources/application.yml`:
+1) To simplify working with the endpoint for this lab, we will turn off its sensitivity. Add the following to `$SPRING_CLOUD_SERVICES_LABS_HOME/hello-spring-boot-actuator/src/main/resources/application.yml`:
 
 ```yaml
 greeting: Hello
@@ -255,7 +255,7 @@ $ java -jar target/hello-spring-boot-actuator-0.0.1-SNAPSHOT.jar
 
 4) Stop the `hello-spring-boot-actuator` application.
 
-5) Create the class `io.pivotal.hello.FlappingHealthIndicator` (`$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-actuator/src/main/java/io/pivotal/hello/FlappingHealthIndicator.java`) and into it paste the following code:
+5) Create the class `io.pivotal.hello.FlappingHealthIndicator` (`$SPRING_CLOUD_SERVICES_LABS_HOME/hello-spring-boot-actuator/src/main/java/io/pivotal/hello/FlappingHealthIndicator.java`) and into it paste the following code:
 
 ```java
 package io.pivotal.hello;
@@ -312,7 +312,7 @@ $ java -jar target/hello-spring-boot-actuator-0.0.1-SNAPSHOT.jar
 ![metrics](resources/images/metrics.png "metrics")
 
 
-3) Let's add some custom metrics.  We have refactored the greeting into a service of its own.  Open the following file: `$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-actuator/src/main/java/io/pivotal/hello/GreetingService.java`.
+3) Let's add some custom metrics.  We have refactored the greeting into a service of its own.  Open the following file: `$SPRING_CLOUD_SERVICES_LABS_HOME/hello-spring-boot-actuator/src/main/java/io/pivotal/hello/GreetingService.java`.
 
 Uncomment this line:
 ```java
@@ -326,7 +326,7 @@ Notice the `counterService`.  This service allows for any metric to be counted.
    CounterService counterService;
 ```
 
-4) Review the following file to see how the `GreetingService` is called: `$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-actuator/src/main/java/io/pivotal/hello/HelloSpringBootApplication.java`
+4) Review the following file to see how the `GreetingService` is called: `$SPRING_CLOUD_SERVICES_LABS_HOME/hello-spring-boot-actuator/src/main/java/io/pivotal/hello/HelloSpringBootApplication.java`
 
 5) Build and run the `hello-spring-boot-actuator` application:
 

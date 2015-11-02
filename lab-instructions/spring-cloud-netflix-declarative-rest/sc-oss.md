@@ -21,26 +21,26 @@
 1) Start the `config-server` in a terminal window.  You may have a terminal windows still open from previous labs.  They may be reused for this lab.
 
 ```bash
-$ cd $CLOUD_NATIVE_APP_LABS_HOME/config-server
+$ cd $SPRING_CLOUD_SERVICES_LABS_HOME/config-server
 $ mvn clean spring-boot:run
 ```
 
 2) Start the `service-registry`
 
 ```bash
-$ cd $CLOUD_NATIVE_APP_LABS_HOME/service-registry
+$ cd $SPRING_CLOUD_SERVICES_LABS_HOME/service-registry
 $ mvn clean spring-boot:run
 ```
 
 3) Start the `fortune-service`
 
 ```bash
-$ cd $CLOUD_NATIVE_APP_LABS_HOME/fortune-service
+$ cd $SPRING_CLOUD_SERVICES_LABS_HOME/fortune-service
 $ mvn clean spring-boot:run
 ```
 
 ### Setup `greeting-feign`
-1) ) Review the $CLOUD_NATIVE_APP_LABS_HOME/greeting-feign/pom.xml file. By adding `spring-cloud-starter-feign` to the classpath this application can create feign clients.
+1) ) Review the $SPRING_CLOUD_SERVICES_LABS_HOME/greeting-feign/pom.xml file. By adding `spring-cloud-starter-feign` to the classpath this application can create feign clients.
 
 ```xml
 <dependency>
@@ -49,7 +49,7 @@ $ mvn clean spring-boot:run
 </dependency>
 ```
 
-1) Review the the following file: `$CLOUD_NATIVE_APP_LABS_HOME/greeting-feign/src/main/java/io/pivotal/greeting/FortuneServiceClient.java`.  Notice the `@FeignClient`.  For this interface, we don't need to write the implementation.
+1) Review the the following file: `$SPRING_CLOUD_SERVICES_LABS_HOME/greeting-feign/src/main/java/io/pivotal/greeting/FortuneServiceClient.java`.  Notice the `@FeignClient`.  For this interface, we don't need to write the implementation.
 
 ```java
 @FeignClient("fortune-service")
@@ -60,7 +60,7 @@ public interface FortuneServiceClient {
 }
 
 ```
-2) Review the the following file: `$CLOUD_NATIVE_APP_LABS_HOME/greeting-feign/src/main/java/io/pivotal/greeting/GreetingController.java`.  Notice the `FortuneServiceClient` being autowired in.
+2) Review the the following file: `$SPRING_CLOUD_SERVICES_LABS_HOME/greeting-feign/src/main/java/io/pivotal/greeting/GreetingController.java`.  Notice the `FortuneServiceClient` being autowired in.
 
 ```java
 @Controller
@@ -94,7 +94,7 @@ public class GreetingController {
 
 ```
 
-3) Review the the following file: `$CLOUD_NATIVE_APP_LABS_HOME/greeting-feign/src/main/java/io/pivotal/GreetingFeignApplication.java`.  Notice the `@EnableFeignClients` annotation.  This enables feign client creation.
+3) Review the the following file: `$SPRING_CLOUD_SERVICES_LABS_HOME/greeting-feign/src/main/java/io/pivotal/GreetingFeignApplication.java`.  Notice the `@EnableFeignClients` annotation.  This enables feign client creation.
 
 ```java
 @SpringBootApplication
@@ -114,7 +114,7 @@ public class GreetingRibbonFeignApplication {
 2) Open a new terminal window.  Start the `greeting-feign` app.
 
  ```bash
-$ cd $CLOUD_NATIVE_APP_LABS_HOME/greeting-feign
+$ cd $SPRING_CLOUD_SERVICES_LABS_HOME/greeting-feign
 $ mvn clean spring-boot:run
 ```
 

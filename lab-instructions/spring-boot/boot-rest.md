@@ -34,7 +34,7 @@ Estimated Time: 45 minutes
 
 ### Add an Embedded Database
 
-1) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-rest/pom.xml`.  By adding the `hsqldb` dependency, we have added embedded database support for the `hello-spring-boot-rest` application.  This helps us get started quickly in development, as we don't have to provision a database.
+1) Review the following file: `$SPRING_CLOUD_SERVICES_LABS_HOME/hello-spring-boot-rest/pom.xml`.  By adding the `hsqldb` dependency, we have added embedded database support for the `hello-spring-boot-rest` application.  This helps us get started quickly in development, as we don't have to provision a database.
 
 ```xml
 <dependency>
@@ -46,7 +46,7 @@ Estimated Time: 45 minutes
 
 ### Persistence With Spring Data JPA
 
-1) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-rest/pom.xml`.  By adding the `spring-boot-starter-data-jpa` dependency, we have added Spring Data JPA support for the `hello-spring-boot-rest` application.
+1) Review the following file: `$SPRING_CLOUD_SERVICES_LABS_HOME/hello-spring-boot-rest/pom.xml`.  By adding the `spring-boot-starter-data-jpa` dependency, we have added Spring Data JPA support for the `hello-spring-boot-rest` application.
 
 Implementing a data access layer of an application has been cumbersome for quite a while. Too much boilerplate code has to be written to execute simple queries as well as perform pagination, and auditing. Spring Data JPA aims to significantly improve the implementation of data access layers by reducing the effort to the amount that's actually needed. As a developer you write your repository interfaces, including custom finder methods, and Spring will provide the implementation automatically.
 
@@ -59,7 +59,7 @@ To read more on Spring Data JPA go [here](http://docs.spring.io/spring-data/jpa/
 </dependency>
 ```
 
-2) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-rest/src/main/java/io/pivotal/hello/Greeting.java`.  This is a typical JPA domain (`Entity`) class.  This class represents one row in our `greeting` table.
+2) Review the following file: `$SPRING_CLOUD_SERVICES_LABS_HOME/hello-spring-boot-rest/src/main/java/io/pivotal/hello/Greeting.java`.  This is a typical JPA domain (`Entity`) class.  This class represents one row in our `greeting` table.
 
 ```java
 @Entity
@@ -96,7 +96,7 @@ public class Greeting {
 }
 ```
 
-3) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-rest/src/main/java/io/pivotal/hello/GreetingRepository.java`.  This repository interface provides [CRUD operations](http://docs.spring.io/spring-data/jpa/docs/current/api/org/springframework/data/jpa/repository/JpaRepository.html) against the `greeting` table.  All without the developer having to write any implementation!
+3) Review the following file: `$SPRING_CLOUD_SERVICES_LABS_HOME/hello-spring-boot-rest/src/main/java/io/pivotal/hello/GreetingRepository.java`.  This repository interface provides [CRUD operations](http://docs.spring.io/spring-data/jpa/docs/current/api/org/springframework/data/jpa/repository/JpaRepository.html) against the `greeting` table.  All without the developer having to write any implementation!
 
 ```java
 public interface GreetingRepository extends JpaRepository<Greeting, Long>{
@@ -104,7 +104,7 @@ public interface GreetingRepository extends JpaRepository<Greeting, Long>{
 }
 ```
 
-4) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-rest/src/main/resources/application.yml`.  The `spring.jpa.hibernate.ddl-auto` setting controls how/if DDL changes are made.  In this case, our application will update the schema if needed on startup.  Read more on database initialization [here](http://docs.spring.io/spring-boot/docs/current/reference/html/howto-database-initialization.html).
+4) Review the following file: `$SPRING_CLOUD_SERVICES_LABS_HOME/hello-spring-boot-rest/src/main/resources/application.yml`.  The `spring.jpa.hibernate.ddl-auto` setting controls how/if DDL changes are made.  In this case, our application will update the schema if needed on startup.  Read more on database initialization [here](http://docs.spring.io/spring-boot/docs/current/reference/html/howto-database-initialization.html).
 
 
 ```yml
@@ -116,7 +116,7 @@ spring:
 
 ### Add a Restful API with Spring Data Rest
 
-1) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-rest/pom.xml`.  By adding the `spring-boot-starter-data-rest` dependency, we have added REST support for our JPA repositories in the `hello-spring-boot-rest` application.
+1) Review the following file: `$SPRING_CLOUD_SERVICES_LABS_HOME/hello-spring-boot-rest/pom.xml`.  By adding the `spring-boot-starter-data-rest` dependency, we have added REST support for our JPA repositories in the `hello-spring-boot-rest` application.
 
 ```xml
 <dependency>
@@ -137,7 +137,7 @@ In many cases, you need to run some code on startup.  Spring Boot allows you cap
 
 `CommandLineRunner` is a core feature to Spring Boot so there are no dependencies that need to be explicitly added.
 
-1) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-rest/src/main/java/io/pivotal/hello/HelloSpringBootApplication.java`.
+1) Review the following file: `$SPRING_CLOUD_SERVICES_LABS_HOME/hello-spring-boot-rest/src/main/java/io/pivotal/hello/HelloSpringBootApplication.java`.
 
 
 ```java
@@ -181,7 +181,7 @@ In this case, we are using a `CommandLineRunner` to populate the database with o
 
 To view the debug statements in the class we can turn up logging.
 
-1) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-rest/src/main/resources/application.yml`.
+1) Review the following file: `$SPRING_CLOUD_SERVICES_LABS_HOME/hello-spring-boot-rest/src/main/resources/application.yml`.
 
 ```yaml
 logging:
@@ -201,7 +201,7 @@ In this case, we have turned on `DEBUG` logging for everything in the `io.pivota
 1) Open a terminal window.
 
 ```bash
-$ cd $CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-rest
+$ cd $SPRING_CLOUD_SERVICES_LABS_HOME/hello-spring-boot-rest
 $ mvn clean spring-boot:run
 ```
 
@@ -234,7 +234,7 @@ Notice that not just data is returned but links on how to navigate the API.  Thi
 
 We know that we don't want to use our embedded database when we deploy our application.  In this case, we plan to use MySql.
 
-1) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-rest/pom.xml`.  By adding the `mysql-connector-java` dependency, we have added MySQL support for the `hello-spring-boot-rest` application.
+1) Review the following file: `$SPRING_CLOUD_SERVICES_LABS_HOME/hello-spring-boot-rest/pom.xml`.  By adding the `mysql-connector-java` dependency, we have added MySQL support for the `hello-spring-boot-rest` application.
 
 ```xml
 <dependency>

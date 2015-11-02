@@ -60,7 +60,7 @@ Notice that this repository is basically empty. This repository will be the sour
 
 ### Set up `config-server`
 
-1) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/config-server/pom.xml`
+1) Review the following file: `$SPRING_CLOUD_SERVICES_LABS_HOME/config-server/pom.xml`
 By adding `spring-cloud-config-server` to the classpath, this application is eligible to embed a config-server.
 
 ```xml
@@ -69,7 +69,7 @@ By adding `spring-cloud-config-server` to the classpath, this application is eli
     <artifactId>spring-cloud-config-server</artifactId>
 </dependency>
 ```
-2) Review the following file:`$CLOUD_NATIVE_APP_LABS_HOME/config-server/src/main/java/io/pivotal/ConfigServerApplication.java`
+2) Review the following file:`$SPRING_CLOUD_SERVICES_LABS_HOME/config-server/src/main/java/io/pivotal/ConfigServerApplication.java`
 
 ```java
 @SpringBootApplication
@@ -83,7 +83,7 @@ public class ConfigServerApplication {
 ```
 Note the `@EnableConfigServer` annotation.  That embeds the config-server.
 
-3) Set the GitHub repository for the `config-server`. This will be the source of the configuration data. Edit the `$CLOUD_NATIVE_APP_LABS_HOME/config-server/src/main/resources/application.yml` file.
+3) Set the GitHub repository for the `config-server`. This will be the source of the configuration data. Edit the `$SPRING_CLOUD_SERVICES_LABS_HOME/config-server/src/main/resources/application.yml` file.
 
 ```yml
  server:
@@ -101,7 +101,7 @@ Make sure to substitute your forked app-config repository. Do not use the litera
 4) Open a terminal window and start the `config-server`.
 
 ```bash
-$ cd $CLOUD_NATIVE_APP_LABS_HOME/config-server
+$ cd $SPRING_CLOUD_SERVICES_LABS_HOME/config-server
 $ mvn clean spring-boot:run
 ```
 
@@ -128,7 +128,7 @@ In this case, we are manually calling one of those endpoints (`/{application}/{p
 
 ### Set up `greeting-config`
 
-1) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/greeting-config/pom.xml`
+1) Review the following file: `$SPRING_CLOUD_SERVICES_LABS_HOME/greeting-config/pom.xml`
 By adding `spring-cloud-services-starter-config-client` to the classpath, this application will consume configuration from the config-server.  `greeting-config` is a config client.
 
 ```xml
@@ -138,7 +138,7 @@ By adding `spring-cloud-services-starter-config-client` to the classpath, this a
 </dependency>
 ```
 
-2) Review the `$CLOUD_NATIVE_APP_LABS_HOME/greeting-config/src/main/resources/bootstrap.yml`
+2) Review the `$SPRING_CLOUD_SERVICES_LABS_HOME/greeting-config/src/main/resources/bootstrap.yml`
 
 ```yml
 spring:
@@ -154,7 +154,7 @@ Absent from the bootstrap.yml is the `spring.cloud.config.uri`, which defines ho
 3) Open a new terminal window.  Start the `greeting-config` application:
 
 ```bash
-$ cd $CLOUD_NATIVE_APP_LABS_HOME/greeting-config
+$ cd $SPRING_CLOUD_SERVICES_LABS_HOME/greeting-config
 $ mvn clean spring-boot:run
 ```
 
@@ -214,9 +214,9 @@ $ mvn clean spring-boot:run
 
 ### Changing Logging Levels
 
-As your first use of the config-server, you will change the logging level of the greeting-config application.
+As your first use of the `config-server`, you will change the logging level of the greeting-config application.
 
-1) View the `getGreeting()` method of the `GreetingController` class (`$CLOUD_NATIVE_APP_LABS_HOME/greeting-config/src/main/java/io/pivotal/greeting/GreetingController.java`).
+1) View the `getGreeting()` method of the `GreetingController` class (`$SPRING_CLOUD_SERVICES_LABS_HOME/greeting-config/src/main/java/io/pivotal/greeting/GreetingController.java`).
  ```java
 @RequestMapping("/")
 String getGreeting(Model model){
@@ -268,7 +268,7 @@ We have added several configuration parameters that will be used throughout this
 The propertySources value has changed!  The `config-server` has picked up the changes to the git repo. (If you don't see the change,
 verify that you have pushed the greeting-config.yml to GitHub.)
 
-5) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/greeting-config/pom.xml`.  For the `greeting-config` application to pick up the configuration changes, it must include the `actuator` dependency.  The `actuator` adds several additional endpoints to the application for operational visibility and tasks that need to be carried out.  In this case, we have added the actuator so that we can use the `/refresh` endpoint, which allows us to refresh the application config on demand.
+5) Review the following file: `$SPRING_CLOUD_SERVICES_LABS_HOME/greeting-config/pom.xml`.  For the `greeting-config` application to pick up the configuration changes, it must include the `actuator` dependency.  The `actuator` adds several additional endpoints to the application for operational visibility and tasks that need to be carried out.  In this case, we have added the actuator so that we can use the `/refresh` endpoint, which allows us to refresh the application config on demand.
 
 ```xml
 <dependency>
@@ -291,7 +291,7 @@ Congratulations! You have used the config-server to change the logging level of 
 
 Use of `@ConfigurationProperties` is a common way to externalize, group, and validate configuration in Spring applications.  `@ConfigurationProperties` beans are automatically rebound when application config is refreshed.
 
-1) Review `$CLOUD_NATIVE_APP_LABS_HOME/greeting-config/src/main/java/io/pivotal/greeting/GreetingProperties.java`.  Use of the `@ConfigurationProperties` annotation allows for reading of configuration values.  Configuration keys are a combination of the `prefix` and the field names.  In this case, there is one field (`displayFortune`).  Therefore `greeting.displayFortune` is used to turn the display of fortunes on/off.  Remaining code is typical getter/setters for the fields.
+1) Review `$SPRING_CLOUD_SERVICES_LABS_HOME/greeting-config/src/main/java/io/pivotal/greeting/GreetingProperties.java`.  Use of the `@ConfigurationProperties` annotation allows for reading of configuration values.  Configuration keys are a combination of the `prefix` and the field names.  In this case, there is one field (`displayFortune`).  Therefore `greeting.displayFortune` is used to turn the display of fortunes on/off.  Remaining code is typical getter/setters for the fields.
 
 ```java
 @ConfigurationProperties(prefix="greeting")
@@ -309,7 +309,7 @@ public class GreetingProperties {
 }
 ```
 
-2) Review `$CLOUD_NATIVE_APP_LABS_HOME/greeting-config/src/main/java/io/pivotal/greeting/GreetingController.java`.  Note how the `greetingProperties.isDisplayFortune()` is used to turn the display of fortunes on/off.  There are times when you want to turn features on/off on demand.  In this case, we want the fortune feature "on" with our greeting.
+2) Review `$SPRING_CLOUD_SERVICES_LABS_HOME/greeting-config/src/main/java/io/pivotal/greeting/GreetingController.java`.  Note how the `greetingProperties.isDisplayFortune()` is used to turn the display of fortunes on/off.  There are times when you want to turn features on/off on demand.  In this case, we want the fortune feature "on" with our greeting.
 
 ```java
 @EnableConfigurationProperties(GreetingProperties.class)
@@ -374,7 +374,7 @@ Now you will use the config-server to obtain a service URI rather than hardcodin
 
 Beans annotated with the `@RefreshScope` will be recreated when refreshed so they can pick up new config values.
 
-1) Review `$CLOUD_NATIVE_APP_LABS_HOME/greeting-config/src/main/java/io/pivotal/quote/QuoteService.java`.  `QuoteService.java` uses the `@RefreshScope` annotation. Beans with the `@RefreshScope` annotation will be recreated when refreshing configuration.  The `@Value` annotation allows for injecting the value of the quoteServiceURL configuration parameter.
+1) Review `$SPRING_CLOUD_SERVICES_LABS_HOME/greeting-config/src/main/java/io/pivotal/quote/QuoteService.java`.  `QuoteService.java` uses the `@RefreshScope` annotation. Beans with the `@RefreshScope` annotation will be recreated when refreshing configuration.  The `@Value` annotation allows for injecting the value of the quoteServiceURL configuration parameter.
 
 In this case, we are using a third party service to get quotes.  We want to keep our environments aligned with the third party.  So we are going to override configuration values by profile (next section).
 
@@ -402,7 +402,7 @@ public class QuoteService {
 }
 ```
 
-2) Review `$CLOUD_NATIVE_APP_LABS_HOME/greeting-config/src/main/java/io/pivotal/quote/QuoteController.java`.  `QuoteController` calls the `QuoteService` for quotes.
+2) Review `$SPRING_CLOUD_SERVICES_LABS_HOME/greeting-config/src/main/java/io/pivotal/quote/QuoteController.java`.  `QuoteController` calls the `QuoteService` for quotes.
 
 ```java
 @Controller
@@ -561,7 +561,7 @@ $ cf bs greeting-config cloud-bus
 ```
 You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect_ message from the CLI.  Our app doesn't need to be restaged.  We will push it again with new functionality in a moment.
 
-2) Include the cloud bus dependency in the  `$CLOUD_NATIVE_APP_LABS_HOME/greeting-config/pom.xml`.  _You will need to paste this in your file._
+2) Include the cloud bus dependency in the  `$SPRING_CLOUD_SERVICES_LABS_HOME/greeting-config/pom.xml`.  _You will need to paste this in your file._
 ```xml
 <dependency>
     <groupId>org.springframework.cloud</groupId>

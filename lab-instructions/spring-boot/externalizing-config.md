@@ -14,7 +14,7 @@ Estimated time: 25 minutes
 
 ### Refactoring to Externalize the Config
 
-1) Review the following file:`$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-external-config/src/main/resources/application.yml`.  We have refactored the `application.properties` to `application.yml`.
+1) Review the following file:`$SPRING_CLOUD_SERVICES_LABS_HOME/hello-spring-boot-external-config/src/main/resources/application.yml`.  We have refactored the `application.properties` to `application.yml`.
 
 ```yml
 greeting: Hello
@@ -23,7 +23,7 @@ greeting: Hello
 Spring Boot supports both configuration formats: traditional properties files and YAML.  YAML offers a conscise format when compared to properties files.  Additionally, support for multiple documents within one file add an added capability not present in properties files (more on this later in the lab).  For more details on externalizing configuration review the following [documentation](http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html).
 
 
-2) Review the following file:`$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-external-config/src/main/java/io/pivotal/hello/HelloSpringBootApplication.java`.
+2) Review the following file:`$SPRING_CLOUD_SERVICES_LABS_HOME/hello-spring-boot-external-config/src/main/java/io/pivotal/hello/HelloSpringBootApplication.java`.
 
 ```java
 @SpringBootApplication
@@ -98,7 +98,7 @@ Instead of returning the `greeting` value from the `application.yml`, the value 
 
 ### Using Spring Profiles for Config
 
-1) Add a spanish profile to the `$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-external-config/src/main/resources/application.yml`. Your finished configuration should reflect the following.  _You must edit the file._
+1) Add a spanish profile to the `$SPRING_CLOUD_SERVICES_LABS_HOME/hello-spring-boot-external-config/src/main/resources/application.yml`. Your finished configuration should reflect the following.  _You must edit the file._
 
 ```yml
 greeting: Hello
