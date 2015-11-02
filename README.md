@@ -10,12 +10,6 @@ Local system [requirements](lab-instructions/requirements.md) or use the [Window
 
 ## Labs
 
-### Spring Boot
-0. [Getting Started](lab-instructions/spring-boot/getting-started.md)
-0. [Externalizing Config](lab-instructions/spring-boot/externalizing-config.md)
-0. [Actuator](lab-instructions/spring-boot/actuator.md)
-0. [Spring Data Rest](lab-instructions/spring-boot/boot-rest.md)
-
 ### Spring Cloud
 1. [Spring Cloud Config](lab-instructions/spring-cloud-config/spring-cloud-services.md)
 1. [Spring Cloud Netflix: Service Discovery](lab-instructions/spring-cloud-netflix-service-discovery/spring-cloud-services.md)
