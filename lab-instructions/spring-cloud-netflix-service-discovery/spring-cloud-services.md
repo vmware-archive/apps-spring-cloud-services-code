@@ -487,3 +487,7 @@ $ # then search output for "GreetingController"
 2015-10-29T15:50:00.56-0500 [APP/0]      OUT 2015-10-29 20:50:00.564 DEBUG 23 --- [nio-8080-exec-1] io.pivotal.greeting.GreetingController   : fortune service homePageUrl: http://10.68.104.28:60026/
 2015-10-29T15:50:00.57-0500 [APP/0]      OUT 2015-10-29 20:50:00.572 DEBUG 23 --- [nio-8080-exec-1] io.pivotal.greeting.GreetingController   : Adding fortune
 ```
+
+***What Just Happened?***
+
+The `greeting-service` and `fortune-service` both registered with the `service-registry` (Eureka).  The `greeting-service` was able to locate the `fortune-service` via the `service-registry`.  The `greeting-service` round robins requests to all the `fortune-service` instances.
