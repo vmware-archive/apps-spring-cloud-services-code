@@ -183,7 +183,7 @@ $ mvn clean package
 $ cf push greeting-ribbon-rest -p target/greeting-ribbon-rest-0.0.1-SNAPSHOT.jar -m 512M --random-route --no-start
 ```
 
-2) Bind services for the `greeting-ribbon-rest`.
+2) Bind services for the `greeting-ribbon-rest` application.
 
 ```bash
 $ cf bind-service greeting-ribbon-rest config-server
