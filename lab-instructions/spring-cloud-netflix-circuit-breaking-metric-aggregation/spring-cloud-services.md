@@ -151,7 +151,7 @@ When creating a Circuit Breaker Service instance there are three items that get 
 
 This process takes some time and won't be immediately available for binding.  Give it a couple of minutes.
 
-Browse to and click on the ***Manage*** link for the `circuit-breaker-dashboard` service instance to determine when the `circuit-breaker-dashboard` service instance is ready.
+Click on the ***Manage*** link for the `circuit-breaker-dashboard` service instance to determine when the `circuit-breaker-dashboard` service instance is ready.
 ![manage](resources/images/manage.png "manage")
 
 2) Package and push the `greeting-hystrix` application.
