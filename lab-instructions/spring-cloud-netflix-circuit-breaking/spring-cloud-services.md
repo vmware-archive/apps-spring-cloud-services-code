@@ -125,7 +125,7 @@ $ mvn clean spring-boot:run
 
 ***What Just Happened?***
 
-The circuit breaker tripped because the `fortune-service` was not available.  This insulates the `greeting-hystrix` application so that our users have a better user experience.
+The circuit breaker insulated `greeting-hystrix` from failures when the `fortune-service` was not available.  This results in a better experience for our users.
 
 ### Set up the `greeting-hystrix` metric stream
 
