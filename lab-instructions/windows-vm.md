@@ -12,12 +12,12 @@ A Windows VM is available to complete the labs.
 
 Launch the AMI named `WinServer08STS`. In AWS, in the EC2 dashboard, select (or search for the public image) Images > AMIs > WinServer08STS. Click Launch.
 
-**NOTE** AMI pick the AMI with the greatest number appended to the AMI Name.  In this case, `WinServer08STS7`
+**NOTE** AMI pick the AMI with the greatest number appended to the AMI Name.  In this case, `WinServer08STS8`
 ![search for ami](images/ami.png)
 
 4) When launching, accept defaults except:
 
-1. Step 2: Choose an Instance Type > m4.large (8 GB memory)
+1. Step 2: Choose an Instance Type > t2.medium (4 GB memory)
 
 1. Step 3: Configure Instance Details > Auto-assign Public IP > Enable
 
