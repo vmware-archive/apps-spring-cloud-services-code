@@ -375,7 +375,7 @@ Server error, status code: 502, error code: 10001, message: Service broker error
 You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect_ message from the CLI.  We don't need to restage at this time.
 
 
-5) Set environment variables for the `fortune-service`. Then start the app.
+5) If using self signed certificates, set the `CF_TARGET` environment variable for the `fortune-service`.
 
 ```bash
 $ cf set-env fortune-service CF_TARGET <your api endpoint - make sure it starts with "https://">
@@ -411,21 +411,34 @@ $ mvn clean package
 $ cf push greeting-service -p target/greeting-service-0.0.1-SNAPSHOT.jar -m 512M --random-route --no-start
 ```
 
-3) Bind services and set environment variables for the `greeting-service`. Then start the app.
+3) Bind services for the `greeting-service`.
 
 ```bash
 $ cf bind-service greeting-service config-server
 $ cf bind-service greeting-service service-registry
-$ cf set-env greeting-service CF_TARGET <your api endpoint - make sure it starts with "https://">
-$ cf start greeting-service
 ```
 You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect_ message from the CLI.  We can just start the `greeting-service`.
 
+4) If using self signed certificates, set the `CF_TARGET` environment variable for the `greeting-service`.
 
-4) Confirm `greeting-service` registered with the `service-registry`.  This will take a few moments.
+```bash
+$ cf set-env greeting-service CF_TARGET <your api endpoint - make sure it starts with "https://">
+```
+
+You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect_ message from the CLI.  We don't need to restage at this time.
+
+
+5) Start the `greeting-service` app.
+
+```bash
+$ cf start fortune-service
+```
+
+
+6) Confirm `greeting-service` registered with the `service-registry`.  This will take a few moments.
 ![greeting](resources/images/cf-greeting.png "greeting")
 
-5) Browse to the `greeting-service` application.  Confirm you are seeing fortunes.  Refresh as desired.
+7) Browse to the `greeting-service` application.  Confirm you are seeing fortunes.  Refresh as desired.
 
 ### Scale the `fortune-service`
 
