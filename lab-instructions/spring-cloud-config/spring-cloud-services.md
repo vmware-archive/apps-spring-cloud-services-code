@@ -518,7 +518,7 @@ c) Name the service `config-server`. Your space may be different.  Click the ***
 d) In the ***Services*** list, click the ***Manage*** link under the listing for the new service instance.  The Config Server may take a few moments to initialize.
 ![service successfully added](resources/images/4_service_successfully_added.png "service successfully added")
 
-e) Select `Git` as the ***Configuration Source*** and enter your fork of the `app-config` repo under ***GitURI***.  Do not use the literal below.
+e) Select `Git` as the ***Configuration Source*** and enter your fork of the `app-config` repo under ***Git URI***.  Do not use the literal below.
 ![dashboard](resources/images/dashboard.png "dashboard")
 
 f) The Config Server instance (`config-server`) is now ready to be used.
