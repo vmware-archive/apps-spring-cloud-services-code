@@ -28,7 +28,7 @@ Estimated Time: 45 minutes
 * How to embed Eureka in a Spring Boot application
 * How to register services (`greeting-service` and `fortune-service`) with Eureka
 * How to discover services (`fortune-service`) with Eureka
-* How to use Spring Cloud Service to provision a Service Registry
+* How to use Spring Cloud Services to provision a Service Registry
 
 ## Exercises
 
@@ -128,17 +128,16 @@ Standlalone mode still offers a high degree of resilience with:
 
 * Heartbeats between the client and server to keep registrations up to date
 * Client side caching, so that clients don't go to Eureka for every lookup
-* By running in an Elastic Runtime (Cloud Foundry) that keeps applications up running by design
+* By running in Cloud Foundry which is designed to keep applications up by design
 
 With the above configuration, we have configured Eureka to run in standalone mode.
 
 ***Understanding the configuration parameters***
 
-* `eureka.instance.hostname` - the hostname for this service (Eureka instance)
-* `eureka.client.registerWithEureka` - should this application (Eureka instance) register with Eureka
-* `eureka.client.fetchRegistry` - should  this application (Eureka instance) fetch the registry (for how to discover services)
-* `eureka.client.serviceUrl.defaultZone` - the Eureka instance to use.  Notice it is pointing to itself (`localhost`, `8761`).
-
+* `eureka.instance.hostname` - the hostname for this service. In this case, what host to use to reach our standalone Eureka instance.
+* `eureka.client.registerWithEureka` - should this application (our standalone Eureka instance) register with Eureka
+* `eureka.client.fetchRegistry` - should this application (our stand alone Eureka instance) fetch the registry (for how to discover services)
+* `eureka.client.serviceUrl.defaultZone` - the Eureka instance to use for registering and discovering services.  Notice it is pointing to itself (`localhost`, `8761`).
 
 4) Open a new terminal window.  Start the `service-registry`.
 
@@ -314,7 +313,7 @@ It can take either of two values:
 
 The `direct` registration method is only compatible with Pivotal Cloud Foundry version 1.5 or higher. In Pivotal Cloud Foundry Operations Manager, within the Pivotal Elastic Runtime tile’s Security Config, the “Enable cross-container traffic within each DEA” or “Enable cross-container traffic” option must be enabled.
 
-When using the `direct` registration method, requests from client applications to registered applications will not go through the Pivotal Cloud Foundry Router. You can utilize this with client-side load balancing techniques using [Spring Cloud and Netflix Ribbon](http://projects.spring.io/spring-cloud/docs/1.0.3/spring-cloud.html#spring-cloud-ribbon). To read more on registration techniques go [here](http://docs.pivotal.io/spring-cloud-services/service-registry/registering-a-service.html).
+When using the `direct` registration method, requests from client applications to registered applications will not go through the Pivotal Cloud Foundry `router`. You can utilize this with client-side load balancing techniques using [Spring Cloud and Netflix Ribbon](http://projects.spring.io/spring-cloud/docs/1.0.3/spring-cloud.html#spring-cloud-ribbon). To read more on registration techniques go [here](http://docs.pivotal.io/spring-cloud-services/service-registry/registering-a-service.html).
 
 If cross container traffic has been enabled, in your fork of the `app-config` repo add an additional section to the `$APP_CONFIG_REPO_HOME/application.yml` file as seen below.  If using the `route` option then no change is needed; move to the next step.
 
@@ -358,11 +357,19 @@ $ cf push fortune-service -p target/fortune-service-0.0.1-SNAPSHOT.jar -m 512M -
 $ cf create-service p-service-registry standard service-registry
 ```
 
-4) Bind services to the `fortune-service`. Then start the app.
+4) Bind services to the `fortune-service`.  The `service-registry` service instance will not be immediately bindable.  It needs a fe moments to initialize.
 
 ```bash
 $ cf bind-service fortune-service config-server
 $ cf bind-service fortune-service service-registry
+```
+
+You will need to wait and try again if you see the following message when binding the `service-registry`:
+
+```
+Binding service service-registry to app fortune-service in org dave / space dev as droberts@pivotal.io...
+FAILED
+Server error, status code: 502, error code: 10001, message: Service broker error: Service instance is not running and available for binding.
 ```
 
 You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect_ message from the CLI.  We don't need to restage at this time.
