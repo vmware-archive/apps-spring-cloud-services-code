@@ -1,8 +1,0 @@
-logging:
-  level:
-    io:
-      pivotal: DEBUG
-spring:
-  jpa:
-    hibernate:
-      ddl-auto: update
