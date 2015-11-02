@@ -1,4 +1,4 @@
-# cloud native app labs
+# spring cloud services labs
 
 Labs written using PCF & Spring Cloud Services.
 
