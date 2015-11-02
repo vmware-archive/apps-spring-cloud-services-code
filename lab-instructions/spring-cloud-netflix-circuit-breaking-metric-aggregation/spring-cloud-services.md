@@ -131,7 +131,7 @@ Turbine discovered the `greeting-hystrix` application through the `service-regis
 
 ### Deploying to PCF
 
-In PCF, the traditional Turbine model of pulling metrics from all the distributed Hystrix enabled applications via HTTP doesn’t work when using the `route` registrationMethod.  
+In PCF, the traditional Turbine model of pulling metrics from all the distributed Hystrix enabled applications via HTTP doesn’t work when using the `route` registrationMethod.  Read [here](http://docs.pivotal.io/spring-cloud-services/service-registry/registering-a-service.html) for more details on registration methods.
 
 When applications register using the `route` method every application has the same `hostname` (every app instance has the same URL for a given app).  Therefore it is unknown from Turbine perspective if all metrics are properly being collected.  The problem is solved with Turbine AMQP.  Metrics are published through a message broker.  We'll use RabbitMQ.
 
@@ -145,29 +145,47 @@ $ cf create-service p-circuit-breaker-dashboard standard circuit-breaker-dashboa
 ```
 When creating a Circuit Breaker Service instance there are three items that get provisioned:
 
-1. Hystrix Dashboard
-1. Turbine AMQP
+1. Hystrix Dashboard application instance
+1. Turbine AMQP application instance
 1. RabbitMQ Service Instance
 
 This process takes some time and won't be immediately available for binding.  Give it a couple of minutes.
 
-Browse to and click on the Manage link for the `circuit-breaker-dashboard` service instance
+Browse to and click on the ***Manage*** link for the `circuit-breaker-dashboard` service instance to determine when the `circuit-breaker-dashboard` service instance is ready.
 ![manage](resources/images/manage.png "manage")
 
-2) Package, push, bind services and set environment variables for `greeting-hystrix`.
+2) Package and push the `greeting-hystrix` application.
 ```bash
 $ mvn clean package
 $ cf push greeting-hystrix -p target/greeting-hystrix-0.0.1-SNAPSHOT.jar -m 512M --random-route --no-start
+```
+
+3) Bind services for the `greeting-hystrix`.
+
+```bash
 $ cf bind-service greeting-hystrix config-server
 $ cf bind-service greeting-hystrix service-registry
 $ cf bind-service greeting-hystrix circuit-breaker-dashboard
+```
+You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect_ message from the CLI.  We don't need to restage at this time.
+
+4) If using self signed certificates, set the `CF_TARGET` environment variable for the `greeting-hystrix` application.
+
+```bash
 $ cf set-env greeting-hystrix CF_TARGET <your api endpoint - make sure it starts with "https://">
+```
+
+You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect_ message from the CLI.  We don't need to restage at this time.
+
+
+5) Start the `greeting-hystrix` app.
+
+```bash
 $ cf start greeting-hystrix
 ```
-You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect_ message from the CLI. We can just start the `greeting-hystrix` application.
 
-3) Experiment! Refresh the greeting-hystrix / endpoint several times. Take down the fortune-service app. Scale the greeting-hystrix app. What does the dashboard do?
+6) Experiment! Refresh the `greeting-hystrix` / endpoint several times. Take down the fortune-service app. Scale the greeting-hystrix app. What does the dashboard do?
 
 ***What Just Happened?***
 
-  The `greeting-hystrix` application is publishing metrics via AMQP to RabbitMQ (this can be discovered by looking at `VCAP_SERVICES`).  Those metrics are then consumed and aggregated by Turbine.  The Circuit Breaker Dashboard then consumes the Turbine endpoint.  All of this detail has been abstracted away by using the PCF Circuit Breaker Dashboard Service.
+The `greeting-hystrix` application is publishing metrics via AMQP to RabbitMQ (this can be discovered by looking at `VCAP_SERVICES`).  Those metrics are then consumed and aggregated by Turbine.  The Circuit Breaker Dashboard then consumes the Turbine endpoint.  All of this detail has been abstracted away by using the PCF Circuit Breaker Dashboard Service.
