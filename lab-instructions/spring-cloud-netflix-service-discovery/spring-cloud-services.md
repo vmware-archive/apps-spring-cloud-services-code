@@ -351,13 +351,18 @@ $ mvn clean package
 $ cf push fortune-service -p target/fortune-service-0.0.1-SNAPSHOT.jar -m 512M --random-route --no-start
 ```
 
-3) Create a Service Registry Service Instance
+3) Create a Service Registry Service Instance.  The `service-registry` service instance will not be immediately bindable.  It needs a few moments to initialize.
 
 ```bash
 $ cf create-service p-service-registry standard service-registry
 ```
 
-4) Bind services to the `fortune-service`.  The `service-registry` service instance will not be immediately bindable.  It needs a few moments to initialize.
+Click on the ***Manage*** link to determine when the `service-registry` is ready.
+
+![manage](resources/images/manage.png "manage")
+
+
+4) Bind services to the `fortune-service`.  
 
 ```bash
 $ cf bind-service fortune-service config-server
