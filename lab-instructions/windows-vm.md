@@ -60,7 +60,7 @@ The Windows console is very limited in the sense that it lacks tab support, sear
 
 Therefore, also installed is an alternative to the command prompt known as [PowerCmd](http://www.powercmd.com/).
 
-We recommend using PowerCmd to execute the labs.  You can launch PowerCmd from the desktop.  It will open to your $REPOS_HOME` directory.
+We recommend using PowerCmd to execute the labs.  You can launch PowerCmd from the desktop.  It will open to your `$REPOS_HOME` directory.
 
 ![PowerCmd Tab](images/initial.png "PowerCmd Tab")
 
