@@ -7,7 +7,7 @@
 
 2) GitHub displays your new fork. Copy the HTTPS clone URL from your fork.
 
-3) Open a new terminal window.  Clone your fork of the `spring-cloud-services-labs`.  This contains several applications used to demonstrate cloud native architectures.  Get familiar with the sub directories.  We recommend organizing your work into a `repos` directory.  A `repos` directory is where you will clone repositories and perform your work.  Throughout the labs we will reference this directory as `$REPOS_HOME`.
+3) Open a new terminal window.  Clone your fork of the `spring-cloud-services-labs`.  This contains several applications used to demonstrate cloud native architectures.  Get familiar with the sub directories.  We recommend organizing your work into a `repos` directory.  A `repos` directory is where you will [clone](https://git-scm.com/docs/git-clone) repositories and perform your work.  The repos directory can be any directory on your local file system (e.g. `~/repos`, `C:\Users\Administrator\repos`, etc.).  Throughout the labs we will reference this directory as `$REPOS_HOME`.  There is no need to create the `$REPOS_HOME` environment variable, it simply a placeholder used to help you organize lab content.
 
 ```bash
 $ cd $REPOS_HOME
