@@ -52,17 +52,17 @@ Please consider using this VM if you have any of the following limitations:
 
 ### Work Directory
 
-As part of the VM there is a `repos` directory.  It is located at `C:\Users\Administrator\repos`.  This is where you will clone repos from GitHub.  This will be referred to as $REPOS_HOME throughout the labs.
+As part of the VM there is a `repos` directory.  It is located at `C:\Users\Administrator\repos`.  This is where you will clone repos from GitHub.  This will be referred to as `$REPOS_HOME` throughout the labs.
 
-### PowerCmd
+### ConEmu
 
 The Windows console is very limited in the sense that it lacks tab support, search and other features one might like in a console/terminal experience.
 
-Therefore, also installed is an alternative to the command prompt known as [PowerCmd](http://www.powercmd.com/).
+Therefore, also installed is an alternative to the command prompt known as [ConEmu](https://conemu.github.io/).
 
-We recommend using PowerCmd to execute the labs.  You can launch PowerCmd from the desktop.  It will open to your `$REPOS_HOME` directory.
+We recommend using ConEmu to execute the labs.  You can launch ConEmu from the desktop.  It will open to your `$REPOS_HOME` directory.
 
-![PowerCmd Tab](images/initial.png "PowerCmd Tab")
+![ConEmu Tab](images/initial.png "ConEmu Tab")
 
 
 #### Use Labeled Tabs
@@ -74,4 +74,4 @@ To label the tab execute the following:
 title - <tab label>
 ```
 For example, creating a tab for the `config-server`.  This is where work done with the `config-server` would take place.
-![PowerCmd](images/tab.png "PowerCmd")
+![ConEmu](images/tab.png "ConEmu")
