@@ -9,5 +9,4 @@ public class Quote {
 	public String getAuthor() {
 		return author;
 	}
-
 }
