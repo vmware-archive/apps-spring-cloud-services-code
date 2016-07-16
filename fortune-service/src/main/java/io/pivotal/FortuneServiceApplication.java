@@ -11,6 +11,5 @@ public class FortuneServiceApplication {
     public static void main(String[] args) {
         SpringApplication.run(FortuneServiceApplication.class, args);
     }
-    
-    
+
 }
