@@ -12,31 +12,25 @@ import org.springframework.web.client.RestTemplate;
 @Controller
 public class GreetingController {
 
-	Logger logger = LoggerFactory
-			.getLogger(GreetingController.class);
+  Logger logger = LoggerFactory.getLogger(GreetingController.class);
 
-	
+  @Autowired
+  @LoadBalanced
+  private RestTemplate restTemplate;
 
-	
-	@Autowired
-	@LoadBalanced
-	private RestTemplate restTemplate;
-	
-	@RequestMapping("/")
-	String getGreeting(Model model){
-        
-		logger.debug("Adding greeting");
-		model.addAttribute("msg", "Greetings!!!");
-			
-		
-        String fortune = restTemplate.getForObject("http://fortune-service", String.class);
+  @RequestMapping("/")
+  String getGreeting(Model model) {
 
-		logger.debug("Adding fortune");
-		model.addAttribute("fortune", fortune);
-		
-		//resolves to the greeting.vm velocity template
-		return "greeting";
-	}
-	
-	
+    logger.debug("Adding greeting");
+    model.addAttribute("msg", "Greetings!!!");
+
+    String fortune = restTemplate.getForObject("http://fortune-service", String.class);
+
+    logger.debug("Adding fortune");
+    model.addAttribute("fortune", fortune);
+
+    //resolves to the greeting.vm velocity template
+    return "greeting";
+  }
+
 }
