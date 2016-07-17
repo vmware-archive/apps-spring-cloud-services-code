@@ -15,7 +15,6 @@ public class GreetingController {
   Logger logger = LoggerFactory.getLogger(GreetingController.class);
 
   @Autowired
-  @LoadBalanced
   private RestTemplate restTemplate;
 
   @RequestMapping("/")

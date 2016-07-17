@@ -15,8 +15,8 @@ public class GreetingRibbonRestApplication {
     SpringApplication.run(GreetingRibbonRestApplication.class, args);
   }
 
-  @Bean
   @LoadBalanced
+  @Bean
   RestTemplate restTemplate() {
     return new RestTemplate();
   }
