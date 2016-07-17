@@ -9,17 +9,18 @@
 	<packaging>jar</packaging>
 
 	<name>hystrix-dashboard</name>
-	<description>hystrix-dashboard</description>
+	<description>Hystrix Dashboard</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.2.4.RELEASE</version>
+		<version>1.3.6.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 	</properties>
 
@@ -40,8 +41,8 @@
 		<dependencies>
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-starter-parent</artifactId>
-				<version>Angel.SR3</version>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>Brixton.SR3</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -57,5 +58,4 @@
 		</plugins>
 	</build>
 	
-
 </project>
