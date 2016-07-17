@@ -1,3 +1,3 @@
-# config-client
+# greeting-hystrix
 
-Demonstrates using Spring Cloud Config from a client perspective
+Demonstrates basic usage of circuit breakers with hystrix

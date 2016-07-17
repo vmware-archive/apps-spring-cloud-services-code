@@ -1,3 +1,3 @@
-# config-client
+# greeting-feign
 
-Demonstrates using Spring Cloud Config from a client perspective
+Demonstrates using Feign as an atlernative to RestTemplate
