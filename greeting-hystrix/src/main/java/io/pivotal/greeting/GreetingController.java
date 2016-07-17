@@ -12,26 +12,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class GreetingController {
 
-	Logger logger = LoggerFactory
-			.getLogger(GreetingController.class);
+  Logger logger = LoggerFactory.getLogger(GreetingController.class);
 
-	@Autowired
-	private FortuneService fortuneService;
-	
-	@RequestMapping("/")
-	String getGreeting(Model model){
-        
-		logger.debug("Adding greeting");
-		model.addAttribute("msg", "Greetings!!!");
-		
-		String fortune = fortuneService.getFortune();
+  @Autowired
+  private FortuneService fortuneService;
 
-		logger.debug("Adding fortune");
-		model.addAttribute("fortune", fortune);
-		
-		//resolves to the greeting.vm velocity template
-		return "greeting";
-	}
+  @RequestMapping("/")
+  String getGreeting(Model model) {
 
+    logger.debug("Adding greeting");
+    model.addAttribute("msg", "Greetings!!!");
+
+    String fortune = fortuneService.getFortune();
+
+    logger.debug("Adding fortune");
+    model.addAttribute("fortune", fortune);
+
+    //resolves to the greeting.vm velocity template
+    return "greeting";
+  }
 
 }
