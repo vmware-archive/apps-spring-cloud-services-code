@@ -10,10 +10,9 @@ import org.springframework.web.client.RestTemplate;
 @Service
 @RefreshScope
 public class QuoteService {
-	Logger logger = LoggerFactory
-			.getLogger(QuoteController.class);
+	Logger logger = LoggerFactory.getLogger(QuoteController.class);
 
-	@Value("${quoteServiceURL}")
+	@Value("${quoteServiceURL:}")
 	private String quoteServiceURL;
 
 	public String getQuoteServiceURI() {
@@ -23,8 +22,7 @@ public class QuoteService {
 	public Quote getQuote(){
 		logger.info("quoteServiceURL: {}", quoteServiceURL);
 		RestTemplate restTemplate = new RestTemplate();
-		Quote quote = restTemplate.getForObject(
-				quoteServiceURL, Quote.class);
+		Quote quote = restTemplate.getForObject(quoteServiceURL, Quote.class);
 		return quote;
 	}
 }

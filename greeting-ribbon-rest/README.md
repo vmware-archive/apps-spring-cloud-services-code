@@ -1,3 +1,3 @@
-# config-client
+# greeting-ribbon-rest
 
-Demonstrates using Spring Cloud Config from a client perspective
+Demonstrates using Ribbon load balancer integration with RestTemplate

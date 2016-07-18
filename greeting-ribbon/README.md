@@ -1,3 +1,3 @@
-# config-client
+# greeting-ribbon
 
-Demonstrates using Spring Cloud Config from a client perspective
+Demonstrates using basic ribbon load balancing usage with LoadBalancerClient

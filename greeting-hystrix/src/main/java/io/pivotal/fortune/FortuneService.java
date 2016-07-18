@@ -12,24 +12,19 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 @Service
 public class FortuneService {
 
-	Logger logger = LoggerFactory
-			.getLogger(FortuneService.class);
-	
-	@Autowired
-	@LoadBalanced
-	private RestTemplate restTemplate;
-		
-	@HystrixCommand(fallbackMethod = "defaultFortune")
-	public String getFortune() {
-        String fortune = restTemplate.getForObject("http://fortune-service", String.class);
-		return fortune;
-	}
-	
-	public String defaultFortune(){
-		logger.debug("Default fortune used.");
-		return "This fortune is no good. Try another.";
-	}
-	
-	
-	
+  Logger logger = LoggerFactory.getLogger(FortuneService.class);
+
+  @Autowired
+  private RestTemplate restTemplate;
+
+  @HystrixCommand(fallbackMethod = "defaultFortune")
+  public String getFortune() {
+    return restTemplate.getForObject("http://fortune-service", String.class);
+  }
+
+  public String defaultFortune() {
+    logger.debug("Default fortune used.");
+    return "This fortune is no good. Try another.";
+  }
+
 }

@@ -13,40 +13,35 @@ import org.springframework.web.client.RestTemplate;
 @Controller
 public class GreetingController {
 
-	Logger logger = LoggerFactory
-			.getLogger(GreetingController.class);
+  Logger logger = LoggerFactory.getLogger(GreetingController.class);
 
-	
+  @Autowired
+  private LoadBalancerClient loadBalancerClient;
 
-	
-	@Autowired
-	private LoadBalancerClient loadBalancerClient;
-	
-	@RequestMapping("/")
-	String getGreeting(Model model){
-        
-		logger.debug("Adding greeting");
-		model.addAttribute("msg", "Greetings!!!");
-			
-		
-		RestTemplate restTemplate = new RestTemplate();
-        String fortune = restTemplate.getForObject(fetchFortuneServiceUrl(), String.class);
+  @RequestMapping("/")
+  String getGreeting(Model model) {
 
-		logger.debug("Adding fortune");
-		model.addAttribute("fortune", fortune);
-		
-		//resolves to the greeting.vm velocity template
-		return "greeting";
-	}
-	
-	private String fetchFortuneServiceUrl() {
-	    ServiceInstance instance = loadBalancerClient.choose("fortune-service");
-
-	    logger.debug("uri: {}",instance.getUri().toString());
-	    logger.debug("serviceId: {}", instance.getServiceId());
+    logger.debug("Adding greeting");
+    model.addAttribute("msg", "Greetings!!!");
 
 
-	    return instance.getUri().toString();
-	}	
-	
+    RestTemplate restTemplate = new RestTemplate();
+    String fortune = restTemplate.getForObject(fetchFortuneServiceUrl(), String.class);
+
+    logger.debug("Adding fortune");
+    model.addAttribute("fortune", fortune);
+
+    //resolves to the greeting.vm velocity template
+    return "greeting";
+  }
+
+  private String fetchFortuneServiceUrl() {
+    ServiceInstance instance = loadBalancerClient.choose("fortune-service");
+
+    logger.debug("uri: {}", instance.getUri().toString());
+    logger.debug("serviceId: {}", instance.getServiceId());
+
+    return instance.getUri().toString();
+  }
+
 }

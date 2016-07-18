@@ -10,15 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class QuoteController {
 
-	Logger logger = LoggerFactory
-			.getLogger(QuoteController.class);
+	Logger logger = LoggerFactory.getLogger(QuoteController.class);
 	
 	@Autowired
 	private QuoteService quoteService;
 
 	@RequestMapping("/random-quote")
 	String getView(Model model) {
-	
 		model.addAttribute("quote", quoteService.getQuote());
 		model.addAttribute("uri", quoteService.getQuoteServiceURI());
 		return "quote";

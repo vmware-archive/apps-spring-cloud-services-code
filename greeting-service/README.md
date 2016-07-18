@@ -1,3 +1,3 @@
-# config-client
+# greeting-service
 
-Demonstrates using Spring Cloud Config from a client perspective
+Demonstrates using as a discovery client in a spring boot application or microservice

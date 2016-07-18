@@ -26,8 +26,7 @@ public class FortuneService {
 			fortune = "Today will be an awesome day!";
 			break;
 		}
-		
-		
+
 		return fortune;
 	}
 

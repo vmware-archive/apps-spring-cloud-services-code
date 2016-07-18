@@ -14,10 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @EnableConfigurationProperties(GreetingProperties.class)
 public class GreetingController {
 
-	Logger logger = LoggerFactory
-			.getLogger(GreetingController.class);
+	Logger logger = LoggerFactory.getLogger(GreetingController.class);
 
-	
 	@Autowired
 	GreetingProperties greetingProperties;
 	
@@ -38,6 +36,5 @@ public class GreetingController {
 		//resolves to the greeting.vm velocity template
 		return "greeting";
 	}
-	
-	
+
 }
