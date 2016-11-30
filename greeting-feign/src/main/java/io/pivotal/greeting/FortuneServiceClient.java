@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @FeignClient("fortune-service")
 public interface FortuneServiceClient {
 
-	 @RequestMapping(method = RequestMethod.GET, value = "/")
-	 String getFortune();
+    @RequestMapping(method = RequestMethod.GET, value = "/")
+    String getFortune();
 }

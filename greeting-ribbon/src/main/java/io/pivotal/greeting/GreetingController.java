@@ -13,35 +13,38 @@ import org.springframework.web.client.RestTemplate;
 @Controller
 public class GreetingController {
 
-  Logger logger = LoggerFactory.getLogger(GreetingController.class);
+    private Logger logger = LoggerFactory.getLogger(getClass());
+    private LoadBalancerClient loadBalancerClient;
+    private RestTemplate restTemplate;
 
-  @Autowired
-  private LoadBalancerClient loadBalancerClient;
-
-  @RequestMapping("/")
-  String getGreeting(Model model) {
-
-    logger.debug("Adding greeting");
-    model.addAttribute("msg", "Greetings!!!");
+    @Autowired
+    public GreetingController(LoadBalancerClient loadBalancerClient) {
+        this.loadBalancerClient = loadBalancerClient;
+        this.restTemplate = new RestTemplate();
+    }
 
 
-    RestTemplate restTemplate = new RestTemplate();
-    String fortune = restTemplate.getForObject(fetchFortuneServiceUrl(), String.class);
+    @RequestMapping("/")
+    public String getGreeting(Model model) {
+        logger.debug("Adding greeting");
+        model.addAttribute("msg", "Greetings!!!");
 
-    logger.debug("Adding fortune");
-    model.addAttribute("fortune", fortune);
+        String fortune = restTemplate.getForObject(fetchFortuneServiceUrl(), String.class);
 
-    //resolves to the greeting.vm velocity template
-    return "greeting";
-  }
+        logger.debug("Adding fortune");
+        model.addAttribute("fortune", fortune);
 
-  private String fetchFortuneServiceUrl() {
-    ServiceInstance instance = loadBalancerClient.choose("fortune-service");
+        //resolves to the greeting.vm velocity template
+        return "greeting";
+    }
 
-    logger.debug("uri: {}", instance.getUri().toString());
-    logger.debug("serviceId: {}", instance.getServiceId());
 
-    return instance.getUri().toString();
-  }
+    private String fetchFortuneServiceUrl() {
+        ServiceInstance instance = loadBalancerClient.choose("fortune-service");
 
+        logger.debug("uri: {}", instance.getUri().toString());
+        logger.debug("serviceId: {}", instance.getServiceId());
+
+        return instance.getUri().toString();
+    }
 }

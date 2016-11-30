@@ -11,14 +11,13 @@ import org.springframework.web.client.RestTemplate;
 @EnableDiscoveryClient
 public class GreetingRibbonRestApplication {
 
-  public static void main(String[] args) {
-    SpringApplication.run(GreetingRibbonRestApplication.class, args);
-  }
+    public static void main(String[] args) {
+        SpringApplication.run(GreetingRibbonRestApplication.class, args);
+    }
 
-  @LoadBalanced
-  @Bean
-  RestTemplate restTemplate() {
-    return new RestTemplate();
-  }
-
+    @LoadBalanced
+    @Bean
+    RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
 }

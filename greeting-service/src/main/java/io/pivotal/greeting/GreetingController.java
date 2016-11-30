@@ -13,35 +13,39 @@ import org.springframework.web.client.RestTemplate;
 @Controller
 public class GreetingController {
 
-  Logger logger = LoggerFactory.getLogger(GreetingController.class);
+    private Logger logger = LoggerFactory.getLogger(getClass());
+    private EurekaClient discoveryClient;
+    private RestTemplate restTemplate;
 
-  @Autowired
-  private EurekaClient discoveryClient;
+    @Autowired
+    public GreetingController(EurekaClient discoveryClient) {
+        this.discoveryClient = discoveryClient;
+        this.restTemplate = new RestTemplate();
+    }
 
-  @RequestMapping("/")
-  String getGreeting(Model model) {
 
-    logger.debug("Adding greeting");
-    model.addAttribute("msg", "Greetings!!!");
+    @RequestMapping("/")
+    public String getGreeting(Model model) {
+        logger.debug("Adding greeting");
+        model.addAttribute("msg", "Greetings!!!");
 
-    RestTemplate restTemplate = new RestTemplate();
-    String fortune = restTemplate.getForObject(fetchFortuneServiceUrl(), String.class);
+        String fortune = restTemplate.getForObject(fetchFortuneServiceUrl(), String.class);
 
-    logger.debug("Adding fortune");
-    model.addAttribute("fortune", fortune);
+        logger.debug("Adding fortune");
+        model.addAttribute("fortune", fortune);
 
-    //resolves to the greeting.vm velocity template
-    return "greeting";
-  }
+        //resolves to the greeting.vm velocity template
+        return "greeting";
+    }
 
-  private String fetchFortuneServiceUrl() {
-    InstanceInfo instance = discoveryClient.getNextServerFromEureka("FORTUNE-SERVICE", false);
-    logger.debug("instanceID: {}", instance.getId());
 
-    String fortuneServiceUrl = instance.getHomePageUrl();
-    logger.debug("fortune service homePageUrl: {}", fortuneServiceUrl);
+    private String fetchFortuneServiceUrl() {
+        InstanceInfo instance = discoveryClient.getNextServerFromEureka("FORTUNE-SERVICE", false);
+        logger.debug("instanceID: {}", instance.getId());
 
-    return fortuneServiceUrl;
-  }
+        String fortuneServiceUrl = instance.getHomePageUrl();
+        logger.debug("fortune service homePageUrl: {}", fortuneServiceUrl);
 
+        return fortuneServiceUrl;
+    }
 }
