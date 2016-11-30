@@ -10,8 +10,7 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
 @EnableFeignClients
 public class GreetingFeignApplication {
 
-  public static void main(String[] args) {
-    SpringApplication.run(GreetingFeignApplication.class, args);
-  }
-
+    public static void main(String[] args) {
+        SpringApplication.run(GreetingFeignApplication.class, args);
+    }
 }

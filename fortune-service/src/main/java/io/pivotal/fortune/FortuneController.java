@@ -8,17 +8,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class FortuneController {
-	Logger logger = LoggerFactory
-			.getLogger(FortuneController.class);
-	@Autowired
-	private FortuneService fortuneService;
-	
-	
-	@RequestMapping("/")
-	String getQuote(){
-		logger.debug("fetching fortune.");
-		return fortuneService.getFortune();
-	}
-		
-	
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
+    private FortuneService fortuneService;
+
+    @Autowired
+    public FortuneController(FortuneService fortuneService) {
+        this.fortuneService = fortuneService;
+    }
+
+
+    @RequestMapping("/")
+    public String getQuote() {
+        logger.debug("fetching fortune.");
+        return fortuneService.getFortune();
+    }
 }
