@@ -17,7 +17,7 @@ public class QuoteService {
     private RestTemplate restTemplate;
 
     @Autowired
-    public QuoteService(@Value("${quoteServiceURL}") String quoteServiceURL) {
+    public QuoteService(@Value("${quoteServiceURL:}") String quoteServiceURL) {
         this.quoteServiceURL = quoteServiceURL;
         this.restTemplate = new RestTemplate();
     }
