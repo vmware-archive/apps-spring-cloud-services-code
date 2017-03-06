@@ -1,8 +1,3 @@
 spring:
   application:
     name: greeting-config
-
-  cloud:
-    config:
-      uri: http://localhost:8000
-    
