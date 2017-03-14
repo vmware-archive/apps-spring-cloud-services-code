@@ -27,7 +27,7 @@
 <body>
 
 <script src="app.js"></script>
-<script>Elm.GreetingApp.fullscreen({"apiServerUrl":"http://localhost:8790/fortune"})</script>
+<script>Elm.GreetingApp.fullscreen({"apiServerUrl":"${apiServerUrl}"})</script>
 
 </body>
 </html>

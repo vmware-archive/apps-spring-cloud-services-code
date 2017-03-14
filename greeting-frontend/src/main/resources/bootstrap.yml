@@ -1,0 +1,2 @@
+spring.application.name: greeting-frontend
+server.port: 8791
