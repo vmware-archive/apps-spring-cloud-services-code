@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -e
+
+if ! (which elm-make > /dev/null); then
+    echo "elm-make is required for building. Download it from: https://guide.elm-lang.org/install.html"
+    exit 1;
+fi
+
+elm-make --yes --output $(dirname $0)/../../build/app.js GreetingApp.elm
