@@ -25,15 +25,15 @@ public class HomeController {
         ModelAndView modelAndView = new ModelAndView("index");
 
         Map<String, Object> model = modelAndView.getModel();
-        model.put("apiServerUrl", format("%s/fortune", getGatewayUrl()));
+        model.put("apiServerUrl", getFortuneServiceUrl());
 
         return modelAndView;
     }
 
 
-    private String getGatewayUrl() {
+    private String getFortuneServiceUrl() {
         return discoveryClient
-            .getNextServerFromEureka("gateway-application", false)
+            .getNextServerFromEureka("fortune-service", false)
             .getHomePageUrl();
     }
 }
